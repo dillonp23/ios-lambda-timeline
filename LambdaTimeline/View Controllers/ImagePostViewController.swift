@@ -21,6 +21,14 @@ class ImagePostViewController: ShiftableViewController {
     
     func updateViews() {
         
+        if imageEffectSegmentedControl.selectedSegmentIndex <= 1 {
+            topEffectSlider.isHidden = true
+            bottomEffectSlider.isHidden = true
+        } else {
+            topEffectSlider.isHidden = false
+            bottomEffectSlider.isHidden = false
+        }
+        
         guard let imageData = imageData,
             let image = UIImage(data: imageData) else {
                 title = "New Post"
@@ -34,6 +42,7 @@ class ImagePostViewController: ShiftableViewController {
         imageView.image = image
         
         chooseImageButton.setTitle("", for: [])
+        
     }
     
     private func presentImagePickerController() {
@@ -105,6 +114,10 @@ class ImagePostViewController: ShiftableViewController {
         presentImagePickerController()
     }
     
+    @IBAction func segmentedControlIndexChanged(_ sender: UISegmentedControl) {
+        updateViews()
+    }
+    
     func setImageViewHeight(with aspectRatio: CGFloat) {
         
         imageHeightConstraint.constant = imageView.frame.size.width * aspectRatio
@@ -146,3 +159,4 @@ extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
     }
 }
+

@@ -163,6 +163,9 @@
                                                             <segment title="Bloom"/>
                                                             <segment title="Zoom Blur"/>
                                                         </segments>
+                                                        <connections>
+                                                            <action selector="segmentedControlIndexChanged:" destination="1Aw-4e-BW2" eventType="valueChanged" id="T4g-re-I7Q"/>
+                                                        </connections>
                                                     </segmentedControl>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
                                                         <rect key="frame" x="-2" y="51" width="379" height="31"/>
