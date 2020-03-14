@@ -143,16 +143,19 @@ class ImagePostViewController: ShiftableViewController {
 extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
+        
         chooseImageButton.setTitle("", for: [])
         
         picker.dismiss(animated: true, completion: nil)
         
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        
-        imageView.image = image
-        
-        setImageViewHeight(with: image.ratio)
+        // If edited image is avaialable use that, else use original image
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            imageView.image = editedImage
+            setImageViewHeight(with: editedImage.ratio)
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.image = originalImage
+            setImageViewHeight(with: originalImage.ratio)
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
