@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>428283324993-00cubg5cnqukkni9uj9kd2mgiv3kcte4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.428283324993-00cubg5cnqukkni9uj9kd2mgiv3kcte4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBbM8h27FG7ll2lDkLfElkIIZE0tWR17gc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>428283324993</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dillonp.phototimeline.app</string>
+	<key>PROJECT_ID</key>
+	<string>phototimeline-dcd9a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>phototimeline-dcd9a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:428283324993:ios:834750be6fb582238c74c0</string>
+	<key>DATABASE_URL</key>
+	<string>https://phototimeline-dcd9a.firebaseio.com</string>
+</dict>
+</plist>
