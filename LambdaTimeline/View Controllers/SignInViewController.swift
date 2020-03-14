@@ -45,6 +45,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let postsNavigationController = storyboard.instantiateViewController(withIdentifier: "PostsNavigationController")
+                postsNavigationController.modalPresentationStyle = .fullScreen
                 self.present(postsNavigationController, animated: true, completion: nil)
             }
         }
