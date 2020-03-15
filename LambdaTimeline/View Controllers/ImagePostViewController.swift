@@ -28,14 +28,22 @@ class ImagePostViewController: ShiftableViewController {
         switch imageEffectSegmentedControl.selectedSegmentIndex {
         case 2:
             effectControlsStackView.isHidden = false
-//            topEffectSlider.maximumValue = 100
             topEffectLabel.text = "Radius"
-//            bottomEffectSlider.maximumValue = 100
             bottomEffectLabel.text = "Intensity"
         case 3:
             effectControlsStackView.isHidden = false
+            bottomEffectControlsStackView.isHidden = true
+            topEffectSlider.minimumValue = -200
+            topEffectSlider.maximumValue = 200
+            topEffectLabel.text = "Intensity"
         case 4:
             effectControlsStackView.isHidden = false
+            topEffectSlider.minimumValue = 0
+            topEffectSlider.maximumValue = 100
+            topEffectLabel.text = "Radius"
+            bottomEffectSlider.minimumValue = 0
+            bottomEffectSlider.maximumValue = 1
+            bottomEffectLabel.text = "Intensity"
         case 5:
             effectControlsStackView.isHidden = false
         default:
@@ -165,6 +173,8 @@ class ImagePostViewController: ShiftableViewController {
     private let context = CIContext()
     private let chromeFilter = CIFilter.photoEffectChrome()
     private let vignetteFilter = CIFilter.vignette()
+    private let zoomBlurFilter = CIFilter.zoomBlur()
+    private let bloomFilter = CIFilter.bloom()
     
     
     //MARK: - Outlets
@@ -181,6 +191,8 @@ class ImagePostViewController: ShiftableViewController {
     @IBOutlet weak var bottomEffectLabel: UILabel!
     
     @IBOutlet weak var effectControlsStackView: UIStackView!
+    @IBOutlet weak var bottomEffectControlsStackView: UIStackView!
+    
     
     
     
@@ -231,6 +243,47 @@ class ImagePostViewController: ShiftableViewController {
     }
     
     
+    func addZoomBlur(byFiltering image: UIImage) -> UIImage {
+        guard let cgImage = image.cgImage else {
+            print("Couldn't get CGImage from UIImage input")
+            return image
+        }
+        let inputImage = CIImage(cgImage: cgImage)
+        zoomBlurFilter.inputImage = inputImage.clampedToExtent()
+        zoomBlurFilter.amount = topEffectSlider.value
+        guard let outputImage = zoomBlurFilter.outputImage else {
+            print("Unable to filter output image")
+            return image
+        }
+        guard let renderedImage = context.createCGImage(outputImage, from: inputImage.extent) else {
+            print("Unable to render zoom blur filtered image")
+            return image
+        }
+        return UIImage(cgImage: renderedImage)
+    }
+    
+    func addBloom(byFiltering image: UIImage) -> UIImage {
+        guard let cgImage = image.cgImage else {
+            print("Couldn't get CGImage from UIImage input")
+            return image
+        }
+        
+        let inputImage = CIImage(cgImage: cgImage)
+        bloomFilter.inputImage = inputImage.clampedToExtent()
+        bloomFilter.radius = topEffectSlider.value
+        bloomFilter.intensity = bottomEffectSlider.value
+        guard let outputImage = bloomFilter.outputImage else {
+            print("Unable to filter output image")
+            return image
+        }
+        guard let renderedImage = context.createCGImage(outputImage, from: inputImage.extent) else {
+            print("Unable to render bloom filtered image")
+            return image
+        }
+        
+        return UIImage(cgImage: renderedImage)
+    }
+    
     func updateImage() {
         guard let image = originalImage else { return }
         
@@ -242,9 +295,9 @@ class ImagePostViewController: ShiftableViewController {
         case 2:
             imageView.image = addVignette(byFiltering: image)
         case 3:
-            return
+            imageView.image = addZoomBlur(byFiltering: image)
         case 4:
-            return
+            imageView.image = addBloom(byFiltering: image)
         case 5:
             return
         default:

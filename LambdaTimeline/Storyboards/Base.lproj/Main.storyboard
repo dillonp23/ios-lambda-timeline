@@ -155,9 +155,9 @@
                                                     <segment title="None"/>
                                                     <segment title="Chrome"/>
                                                     <segment title="Vignette"/>
-                                                    <segment title="Bump"/>
+                                                    <segment title="Zoom"/>
                                                     <segment title="Bloom"/>
-                                                    <segment title="Zoom Blur"/>
+                                                    <segment title="Bump"/>
                                                 </segments>
                                                 <connections>
                                                     <action selector="segmentedControlIndexChanged:" destination="1Aw-4e-BW2" eventType="valueChanged" id="T4g-re-I7Q"/>
@@ -233,6 +233,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomEffectControlsStackView" destination="ymD-Il-FdS" id="tZP-KF-OVk"/>
                         <outlet property="bottomEffectLabel" destination="RyL-t6-r5h" id="c3I-M5-55d"/>
                         <outlet property="bottomEffectSlider" destination="0tL-7G-Fc7" id="OH9-zh-tCo"/>
                         <outlet property="chooseImageButton" destination="VxD-cu-jHT" id="KVs-no-MbU"/>

@@ -3,7 +3,7 @@ import Foundation
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
-let filter = CIFilter.vignette()
+let filter = CIFilter.bloom()
 
 print(filter.attributes)
 
