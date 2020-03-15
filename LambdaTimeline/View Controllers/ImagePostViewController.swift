@@ -46,6 +46,10 @@ class ImagePostViewController: ShiftableViewController {
             bottomEffectLabel.text = "Intensity"
         case 5:
             effectControlsStackView.isHidden = false
+            topEffectLabel.text = "Radius"
+            topEffectSlider.maximumValue = 100
+            topEffectSlider.minimumValue = 1
+            bottomEffectControlsStackView.isHidden = true
         default:
             effectControlsStackView.isHidden = true
         }
@@ -175,6 +179,7 @@ class ImagePostViewController: ShiftableViewController {
     private let vignetteFilter = CIFilter.vignette()
     private let zoomBlurFilter = CIFilter.zoomBlur()
     private let bloomFilter = CIFilter.bloom()
+    private let crystallizeFilter = CIFilter.crystallize()
     
     
     //MARK: - Outlets
@@ -284,12 +289,30 @@ class ImagePostViewController: ShiftableViewController {
         return UIImage(cgImage: renderedImage)
     }
     
+    func crystallize(byFiltering image: UIImage) -> UIImage {
+        guard let cgImage = image.cgImage else {
+            print("Couldn't get CGImage from UIImage input")
+            return image
+        }
+        let inputImage = CIImage(cgImage: cgImage)
+//        crystallizeFilter.setValue(inputImage, forKey: kCIInputImageKey)
+        crystallizeFilter.inputImage = inputImage
+        crystallizeFilter.radius = topEffectSlider.value
+        guard let outputImage = crystallizeFilter.outputImage else {
+            print("Unable to filter output image")
+            return image
+        }
+        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("Unable to render crystallized filtered image")
+            return image
+        }
+        return UIImage(cgImage: renderedImage)
+    }
+    
     func updateImage() {
         guard let image = originalImage else { return }
         
         switch imageEffectSegmentedControl.selectedSegmentIndex {
-        case 0:
-            imageView.image = image
         case 1:
             imageView.image = makeImageChrome(byFiltering: image)
         case 2:
@@ -299,9 +322,9 @@ class ImagePostViewController: ShiftableViewController {
         case 4:
             imageView.image = addBloom(byFiltering: image)
         case 5:
-            return
+            imageView.image = crystallize(byFiltering: image)
         default:
-            return
+            imageView.image = image
         }
     }
     

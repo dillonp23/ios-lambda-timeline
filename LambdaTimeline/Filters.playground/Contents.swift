@@ -3,7 +3,7 @@ import Foundation
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
-let filter = CIFilter.bloom()
+let filter = CIFilter.crystallize()
 
 print(filter.attributes)
 

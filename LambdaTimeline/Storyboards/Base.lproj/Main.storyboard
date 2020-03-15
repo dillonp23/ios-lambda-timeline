@@ -157,7 +157,7 @@
                                                     <segment title="Vignette"/>
                                                     <segment title="Zoom"/>
                                                     <segment title="Bloom"/>
-                                                    <segment title="Bump"/>
+                                                    <segment title="Crystallize"/>
                                                 </segments>
                                                 <connections>
                                                     <action selector="segmentedControlIndexChanged:" destination="1Aw-4e-BW2" eventType="valueChanged" id="T4g-re-I7Q"/>
