@@ -149,7 +149,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-ff-9vq">
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-ff-9vq">
                                                 <rect key="frame" x="0.0" y="449" width="375" height="32"/>
                                                 <segments>
                                                     <segment title="None"/>
@@ -170,13 +170,13 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJS-fN-Jp1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
-                                                                <rect key="frame" x="18" y="0.0" width="359" height="31"/>
+                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
                                                                 <connections>
                                                                     <action selector="topSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="GNB-dd-jCu"/>
                                                                 </connections>
@@ -187,13 +187,13 @@
                                                         <rect key="frame" x="0.0" y="46" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyL-t6-r5h">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
-                                                                <rect key="frame" x="18" y="0.0" width="359" height="31"/>
+                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
                                                                 <connections>
                                                                     <action selector="bottomSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="Ycp-RH-gXE"/>
                                                                 </connections>

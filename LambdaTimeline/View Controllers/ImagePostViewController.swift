@@ -49,6 +49,7 @@ class ImagePostViewController: ShiftableViewController {
             topEffectLabel.text = "Radius"
             topEffectSlider.maximumValue = 100
             topEffectSlider.minimumValue = 1
+            topEffectSlider.value = 1
             bottomEffectControlsStackView.isHidden = true
         default:
             effectControlsStackView.isHidden = true
@@ -149,16 +150,16 @@ class ImagePostViewController: ShiftableViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
-    @IBAction func segmentedControlIndexChanged(_ sender: UISegmentedControl) {
+    @IBAction func segmentedControlIndexChanged(_ sender: Any) {
         updateViews()
         updateImage()
     }
     
-    @IBAction func topSliderAdjusted(_ sender: UISlider) {
+    @IBAction func topSliderAdjusted(_ sender: Any) {
         updateImage()
     }
     
-    @IBAction func bottomSliderAdjusted(_ sender: UISlider) {
+    @IBAction func bottomSliderAdjusted(_ sender: Any) {
         updateImage()
     }
     
@@ -296,13 +297,14 @@ class ImagePostViewController: ShiftableViewController {
         }
         let inputImage = CIImage(cgImage: cgImage)
 //        crystallizeFilter.setValue(inputImage, forKey: kCIInputImageKey)
-        crystallizeFilter.inputImage = inputImage
+        crystallizeFilter.setValue(inputImage.clampedToExtent(), forKey: kCIInputImageKey)
+//        crystallizeFilter.inputImage = inputImage
         crystallizeFilter.radius = topEffectSlider.value
         guard let outputImage = crystallizeFilter.outputImage else {
             print("Unable to filter output image")
             return image
         }
-        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+        guard let renderedImage = context.createCGImage(outputImage, from: inputImage.extent) else {
             print("Unable to render crystallized filtered image")
             return image
         }
