@@ -25,12 +25,21 @@ class ImagePostViewController: ShiftableViewController {
     
     func updateViews() {
         
-        if imageEffectSegmentedControl.selectedSegmentIndex <= 1 {
-            effectControlsStackView.isHidden = true
-        } else {
+        switch imageEffectSegmentedControl.selectedSegmentIndex {
+        case 2:
             effectControlsStackView.isHidden = false
-            topEffectSlider.value = .zero
-            bottomEffectSlider.value = .zero
+//            topEffectSlider.maximumValue = 100
+            topEffectLabel.text = "Radius"
+//            bottomEffectSlider.maximumValue = 100
+            bottomEffectLabel.text = "Intensity"
+        case 3:
+            effectControlsStackView.isHidden = false
+        case 4:
+            effectControlsStackView.isHidden = false
+        case 5:
+            effectControlsStackView.isHidden = false
+        default:
+            effectControlsStackView.isHidden = true
         }
         
         guard let imageData = imageData,
@@ -133,6 +142,14 @@ class ImagePostViewController: ShiftableViewController {
         updateImage()
     }
     
+    @IBAction func topSliderAdjusted(_ sender: UISlider) {
+        updateImage()
+    }
+    
+    @IBAction func bottomSliderAdjusted(_ sender: UISlider) {
+        updateImage()
+    }
+    
     //MARK: - Properties
     var postController: PostController!
     var post: Post?
@@ -175,7 +192,6 @@ class ImagePostViewController: ShiftableViewController {
             print("Couldn't get CGImage from UIImage input")
             return image
         }
-        
         // 2a. CGImage -> CIImage as filter input
         let inputImage = CIImage(cgImage: cgImage)
         // 2b. Filter CIImage
@@ -185,13 +201,11 @@ class ImagePostViewController: ShiftableViewController {
             print("Unable to get filter output image")
             return image
         }
-        
         // 3. Render filtered output CIImage to a CGImage
         guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else {
             print("Unable to render chrome filtered image")
             return image
         }
-        
         // 4. Return UIImage
         return UIImage(cgImage: renderedImage)
     }
@@ -201,12 +215,11 @@ class ImagePostViewController: ShiftableViewController {
             print("Couldn't get CGImage from UIImage input")
             return image
         }
-        
         let inputImage = CIImage(cgImage: cgImage)
         vignetteFilter.inputImage = inputImage
         vignetteFilter.radius = topEffectSlider.value
         vignetteFilter.intensity = bottomEffectSlider.value
-        guard let outputImage = vignetteFilter.inputImage else {
+        guard let outputImage = vignetteFilter.outputImage else {
             print("Unable to filter output image")
             return image
         }
@@ -214,7 +227,6 @@ class ImagePostViewController: ShiftableViewController {
             print("Unable to render vignette filtered image")
             return image
         }
-        
         return UIImage(cgImage: renderedImage)
     }
     
@@ -268,4 +280,5 @@ extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
 
