@@ -115,7 +115,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="PkI-rS-ua9">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="580"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="576"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQ3-V3-hIf">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
@@ -150,29 +150,51 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Uwf-u2-XEY">
-                                                <rect key="frame" x="0.0" y="449" width="375" height="131"/>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-ff-9vq">
+                                                <rect key="frame" x="0.0" y="449" width="375" height="32"/>
+                                                <segments>
+                                                    <segment title="None"/>
+                                                    <segment title="Chrome"/>
+                                                    <segment title="Vignette"/>
+                                                    <segment title="Bump"/>
+                                                    <segment title="Bloom"/>
+                                                    <segment title="Zoom Blur"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="segmentedControlIndexChanged:" destination="1Aw-4e-BW2" eventType="valueChanged" id="T4g-re-I7Q"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Uwf-u2-XEY">
+                                                <rect key="frame" x="0.0" y="500" width="375" height="76"/>
                                                 <subviews>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-ff-9vq">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="32"/>
-                                                        <segments>
-                                                            <segment title="None"/>
-                                                            <segment title="Chrome"/>
-                                                            <segment title="Vignette"/>
-                                                            <segment title="Bump"/>
-                                                            <segment title="Bloom"/>
-                                                            <segment title="Zoom Blur"/>
-                                                        </segments>
-                                                        <connections>
-                                                            <action selector="segmentedControlIndexChanged:" destination="1Aw-4e-BW2" eventType="valueChanged" id="T4g-re-I7Q"/>
-                                                        </connections>
-                                                    </segmentedControl>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
-                                                        <rect key="frame" x="-2" y="51" width="379" height="31"/>
-                                                    </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
-                                                        <rect key="frame" x="-2" y="101" width="379" height="31"/>
-                                                    </slider>
+                                                    <stackView opaque="NO" contentMode="scaleAspectFit" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="uGK-PN-h56">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJS-fN-Jp1">
+                                                                <rect key="frame" x="0.0" y="0.0" width="18" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
+                                                                <rect key="frame" x="36" y="0.0" width="341" height="31"/>
+                                                            </slider>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleAspectFit" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ymD-Il-FdS">
+                                                        <rect key="frame" x="0.0" y="46" width="375" height="30"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyL-t6-r5h">
+                                                                <rect key="frame" x="0.0" y="0.0" width="17.5" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
+                                                                <rect key="frame" x="35.5" y="0.0" width="341.5" height="31"/>
+                                                            </slider>
+                                                        </subviews>
+                                                    </stackView>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -206,13 +228,16 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomEffectLabel" destination="RyL-t6-r5h" id="c3I-M5-55d"/>
                         <outlet property="bottomEffectSlider" destination="0tL-7G-Fc7" id="OH9-zh-tCo"/>
                         <outlet property="chooseImageButton" destination="VxD-cu-jHT" id="KVs-no-MbU"/>
+                        <outlet property="effectControlsStackView" destination="Uwf-u2-XEY" id="KJy-Cq-saA"/>
                         <outlet property="imageEffectSegmentedControl" destination="gJ4-ff-9vq" id="ynX-qj-YFa"/>
                         <outlet property="imageHeightConstraint" destination="MHD-wr-Gq9" id="HyG-8g-Ck1"/>
                         <outlet property="imageView" destination="4eK-5F-H5h" id="e7m-c5-Xhz"/>
                         <outlet property="postButton" destination="hsH-Uv-tug" id="ZBn-KE-cpU"/>
                         <outlet property="titleTextField" destination="Op6-OA-6Ou" id="JEe-cj-4mv"/>
+                        <outlet property="topEffectLabel" destination="YJS-fN-Jp1" id="ae9-0s-usa"/>
                         <outlet property="topEffectSlider" destination="ex7-R4-FXU" id="6J4-If-VW1"/>
                     </connections>
                 </viewController>

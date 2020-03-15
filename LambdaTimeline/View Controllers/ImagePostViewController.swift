@@ -26,11 +26,11 @@ class ImagePostViewController: ShiftableViewController {
     func updateViews() {
         
         if imageEffectSegmentedControl.selectedSegmentIndex <= 1 {
-            topEffectSlider.isHidden = true
-            bottomEffectSlider.isHidden = true
+            effectControlsStackView.isHidden = true
         } else {
-            topEffectSlider.isHidden = false
-            bottomEffectSlider.isHidden = false
+            effectControlsStackView.isHidden = false
+            topEffectSlider.value = .zero
+            bottomEffectSlider.value = .zero
         }
         
         guard let imageData = imageData,
@@ -57,21 +57,6 @@ class ImagePostViewController: ShiftableViewController {
     }
     
     
-    private func presentImagePickerController() {
-        
-        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
-            presentInformationalAlertController(title: "Error", message: "The photo library is unavailable")
-            return
-        }
-        
-        let imagePicker = UIImagePickerController()
-        
-        imagePicker.delegate = self
-        
-        imagePicker.sourceType = .photoLibrary
-
-        present(imagePicker, animated: true, completion: nil)
-    }
     
     // MARK: - Actions
     @IBAction func createPost(_ sender: Any) {
@@ -127,6 +112,22 @@ class ImagePostViewController: ShiftableViewController {
         presentImagePickerController()
     }
     
+    private func presentImagePickerController() {
+        
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            presentInformationalAlertController(title: "Error", message: "The photo library is unavailable")
+            return
+        }
+        
+        let imagePicker = UIImagePickerController()
+        
+        imagePicker.delegate = self
+        
+        imagePicker.sourceType = .photoLibrary
+
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
     @IBAction func segmentedControlIndexChanged(_ sender: UISegmentedControl) {
         updateViews()
         updateImage()
@@ -143,8 +144,10 @@ class ImagePostViewController: ShiftableViewController {
         }
     }
     
+    //MARK: - CIImage Specfic Properties
     private let context = CIContext()
     private let chromeFilter = CIFilter.photoEffectChrome()
+    private let vignetteFilter = CIFilter.vignette()
     
     
     //MARK: - Outlets
@@ -157,27 +160,64 @@ class ImagePostViewController: ShiftableViewController {
     @IBOutlet weak var imageEffectSegmentedControl: UISegmentedControl!
     @IBOutlet weak var topEffectSlider: UISlider!
     @IBOutlet weak var bottomEffectSlider: UISlider!
+    @IBOutlet weak var topEffectLabel: UILabel!
+    @IBOutlet weak var bottomEffectLabel: UILabel!
+    
+    @IBOutlet weak var effectControlsStackView: UIStackView!
+    
     
     
     //MARK: - Custom Filter Methods
     
     func makeImageChrome(byFiltering image: UIImage) -> UIImage {
         // 1. UI Image -> CG Image
-        guard let cgImage = image.cgImage else { return image }
+        guard let cgImage = image.cgImage else {
+            print("Couldn't get CGImage from UIImage input")
+            return image
+        }
         
         // 2a. CGImage -> CIImage as filter input
         let inputImage = CIImage(cgImage: cgImage)
         // 2b. Filter CIImage
         chromeFilter.inputImage = inputImage
         // 2c. CIImage as filter output
-        guard let outputImage = chromeFilter.outputImage else { return image }
+        guard let outputImage = chromeFilter.outputImage else {
+            print("Unable to get filter output image")
+            return image
+        }
         
         // 3. Render filtered output CIImage to a CGImage
-        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else { return image }
+        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("Unable to render chrome filtered image")
+            return image
+        }
         
         // 4. Return UIImage
         return UIImage(cgImage: renderedImage)
     }
+    
+    func addVignette(byFiltering image: UIImage) -> UIImage {
+        guard let cgImage = image.cgImage else {
+            print("Couldn't get CGImage from UIImage input")
+            return image
+        }
+        
+        let inputImage = CIImage(cgImage: cgImage)
+        vignetteFilter.inputImage = inputImage
+        vignetteFilter.radius = topEffectSlider.value
+        vignetteFilter.intensity = bottomEffectSlider.value
+        guard let outputImage = vignetteFilter.inputImage else {
+            print("Unable to filter output image")
+            return image
+        }
+        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("Unable to render vignette filtered image")
+            return image
+        }
+        
+        return UIImage(cgImage: renderedImage)
+    }
+    
     
     func updateImage() {
         guard let image = originalImage else { return }
@@ -188,7 +228,7 @@ class ImagePostViewController: ShiftableViewController {
         case 1:
             imageView.image = makeImageChrome(byFiltering: image)
         case 2:
-            return
+            imageView.image = addVignette(byFiltering: image)
         case 3:
             return
         case 4:
