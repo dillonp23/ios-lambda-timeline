@@ -28,6 +28,7 @@ class ImagePostViewController: ShiftableViewController {
         switch imageEffectSegmentedControl.selectedSegmentIndex {
         case 2:
             effectControlsStackView.isHidden = false
+            bottomEffectControlsStackView.isHidden = false
             topEffectLabel.text = "Radius"
             bottomEffectLabel.text = "Intensity"
         case 3:
@@ -38,6 +39,7 @@ class ImagePostViewController: ShiftableViewController {
             topEffectLabel.text = "Intensity"
         case 4:
             effectControlsStackView.isHidden = false
+            bottomEffectControlsStackView.isHidden = false
             topEffectSlider.minimumValue = 0
             topEffectSlider.maximumValue = 100
             topEffectLabel.text = "Radius"
@@ -46,6 +48,7 @@ class ImagePostViewController: ShiftableViewController {
             bottomEffectLabel.text = "Intensity"
         case 5:
             effectControlsStackView.isHidden = false
+            bottomEffectControlsStackView.isHidden = false
             topEffectLabel.text = "Radius"
             topEffectSlider.maximumValue = 100
             topEffectSlider.minimumValue = 1
@@ -296,9 +299,7 @@ class ImagePostViewController: ShiftableViewController {
             return image
         }
         let inputImage = CIImage(cgImage: cgImage)
-//        crystallizeFilter.setValue(inputImage, forKey: kCIInputImageKey)
         crystallizeFilter.setValue(inputImage.clampedToExtent(), forKey: kCIInputImageKey)
-//        crystallizeFilter.inputImage = inputImage
         crystallizeFilter.radius = topEffectSlider.value
         guard let outputImage = crystallizeFilter.outputImage else {
             print("Unable to filter output image")
