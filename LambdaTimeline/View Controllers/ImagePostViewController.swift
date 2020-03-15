@@ -8,8 +8,12 @@
 
 import UIKit
 import Photos
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 class ImagePostViewController: ShiftableViewController {
+    
+    // MARK: - View Set-Up
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +49,14 @@ class ImagePostViewController: ShiftableViewController {
         
     }
     
+    func setImageViewHeight(with aspectRatio: CGFloat) {
+        
+        imageHeightConstraint.constant = imageView.frame.size.width * aspectRatio
+        
+        view.layoutSubviews()
+    }
+    
+    
     private func presentImagePickerController() {
         
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
@@ -61,6 +73,7 @@ class ImagePostViewController: ShiftableViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
+    // MARK: - Actions
     @IBAction func createPost(_ sender: Any) {
         
         view.endEditing(true)
@@ -116,19 +129,25 @@ class ImagePostViewController: ShiftableViewController {
     
     @IBAction func segmentedControlIndexChanged(_ sender: UISegmentedControl) {
         updateViews()
+        updateImage()
     }
     
-    func setImageViewHeight(with aspectRatio: CGFloat) {
-        
-        imageHeightConstraint.constant = imageView.frame.size.width * aspectRatio
-        
-        view.layoutSubviews()
-    }
-    
+    //MARK: - Properties
     var postController: PostController!
     var post: Post?
     var imageData: Data?
+//    var uneditedImage: UIImage?
+    var originalImage: UIImage? {
+        didSet {
+            updateImage()
+        }
+    }
     
+    private let context = CIContext()
+    private let chromeFilter = CIFilter.photoEffectChrome()
+    
+    
+    //MARK: - Outlets
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var chooseImageButton: UIButton!
@@ -138,8 +157,53 @@ class ImagePostViewController: ShiftableViewController {
     @IBOutlet weak var imageEffectSegmentedControl: UISegmentedControl!
     @IBOutlet weak var topEffectSlider: UISlider!
     @IBOutlet weak var bottomEffectSlider: UISlider!
+    
+    
+    //MARK: - Custom Filter Methods
+    
+    func makeImageChrome(byFiltering image: UIImage) -> UIImage {
+        // 1. UI Image -> CG Image
+        guard let cgImage = image.cgImage else { return image }
+        
+        // 2a. CGImage -> CIImage as filter input
+        let inputImage = CIImage(cgImage: cgImage)
+        // 2b. Filter CIImage
+        chromeFilter.inputImage = inputImage
+        // 2c. CIImage as filter output
+        guard let outputImage = chromeFilter.outputImage else { return image }
+        
+        // 3. Render filtered output CIImage to a CGImage
+        guard let renderedImage = context.createCGImage(outputImage, from: outputImage.extent) else { return image }
+        
+        // 4. Return UIImage
+        return UIImage(cgImage: renderedImage)
+    }
+    
+    func updateImage() {
+        guard let image = originalImage else { return }
+        
+        switch imageEffectSegmentedControl.selectedSegmentIndex {
+        case 0:
+            imageView.image = image
+        case 1:
+            imageView.image = makeImageChrome(byFiltering: image)
+        case 2:
+            return
+        case 3:
+            return
+        case 4:
+            return
+        case 5:
+            return
+        default:
+            return
+        }
+    }
+    
 }
 
+
+//MARK: - ImagePicker Delegate
 extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -156,6 +220,8 @@ extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigation
             imageView.image = originalImage
             setImageViewHeight(with: originalImage.ratio)
         }
+        
+        originalImage = imageView.image
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
