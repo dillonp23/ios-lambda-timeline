@@ -32,29 +32,20 @@ class ImagePostDetailTableViewController: UITableViewController {
     
     @IBAction func createComment(_ sender: Any) {
         
-        let alert = UIAlertController(title: "Add a comment", message: "Write your comment below:", preferredStyle: .alert)
-        
-        var commentTextField: UITextField?
-        
-        alert.addTextField { (textField) in
-            textField.placeholder = "Comment:"
-            commentTextField = textField
+        let alert = UIAlertController(title: "Add a comment", message: "Choose which style of comment you'd like to add", preferredStyle: .actionSheet)
+                
+        let addTextCommentAction = UIAlertAction(title: "Text Comment", style: .default) { (_) in
+            self.performSegue(withIdentifier: "AddTextCommentSegue", sender: self)
         }
         
-        let addCommentAction = UIAlertAction(title: "Add Comment", style: .default) { (_) in
-            
-            guard let commentText = commentTextField?.text else { return }
-            
-            self.postController.addComment(with: commentText, to: &self.post!)
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+        let addAudioCommentAction = UIAlertAction(title: "Audio Comment", style: .default) { (_) in
+            self.performSegue(withIdentifier: "AddAudioCommentSegue", sender: self)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(addCommentAction)
+        alert.addAction(addTextCommentAction)
+        alert.addAction(addAudioCommentAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
@@ -74,6 +65,24 @@ class ImagePostDetailTableViewController: UITableViewController {
         
         return cell
     }
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "AddTextCommentSegue" {
+            if let addTextCommentVC = segue.destination as? AddTextCommentViewController {
+                addTextCommentVC.postController = self.postController
+            }
+        } else if segue.identifier == "AddAudioCommentSegue" {
+            if let addAudioCommentVC = segue.destination as? AddAudioCommentViewController {
+                addAudioCommentVC.postController = self.postController
+            }
+        }
+    }
+    
     
     var post: Post!
     var postController: PostController!

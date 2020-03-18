@@ -170,13 +170,13 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJS-fN-Jp1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
-                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
+                                                                <rect key="frame" x="48" y="0.0" width="329" height="31"/>
                                                                 <connections>
                                                                     <action selector="topSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="GNB-dd-jCu"/>
                                                                 </connections>
@@ -187,13 +187,13 @@
                                                         <rect key="frame" x="0.0" y="46" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyL-t6-r5h">
-                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
-                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
+                                                                <rect key="frame" x="48" y="0.0" width="329" height="31"/>
                                                                 <connections>
                                                                     <action selector="bottomSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="Ycp-RH-gXE"/>
                                                                 </connections>
@@ -401,11 +401,43 @@
                         <outlet property="imageView" destination="Q0L-w5-qUw" id="0v7-ZB-mgi"/>
                         <outlet property="imageViewAspectRatioConstraint" destination="y1B-iX-x3e" id="wIt-kh-Tzd"/>
                         <outlet property="titleLabel" destination="jyy-BX-c2c" id="UEd-xO-ipC"/>
+                        <segue destination="6Xd-86-60d" kind="presentation" identifier="AddTextCommentSegue" id="cZ3-cq-cd4"/>
+                        <segue destination="Le3-zd-yab" kind="presentation" identifier="AddAudioCommentSegue" id="RmK-s3-vWV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CdL-Y3-4ej" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1968.8" y="472.71364317841085"/>
+        </scene>
+        <!--Add Audio Comment View Controller-->
+        <scene sceneID="eYd-KV-h6V">
+            <objects>
+                <viewController id="Le3-zd-yab" customClass="AddAudioCommentViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3mx-VM-iGn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="KrZ-3a-2r8"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1vi-2E-NDa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2838" y="899"/>
+        </scene>
+        <!--Add Text Comment View Controller-->
+        <scene sceneID="Q1R-8J-bqB">
+            <objects>
+                <viewController id="6Xd-86-60d" customClass="AddTextCommentViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="X77-x0-PS6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="4pR-Pd-11D"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2zK-RT-PLr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2838" y="209"/>
         </scene>
     </scenes>
 </document>
