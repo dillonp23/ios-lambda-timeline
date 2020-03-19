@@ -10,7 +10,11 @@ import UIKit
 
 class AddTextCommentViewController: UIViewController {
     
-    var postController: PostController?
+    
+    @IBOutlet weak var commentTextField: UITextField!
+    @IBOutlet weak var saveButton: UIButton!
+    
+    var delegate: AddTextCommentDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +22,12 @@ class AddTextCommentViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    
+    @IBAction func saveButtonTapped() {
+        guard let comment = commentTextField.text else { return }
+        delegate?.addTextComment(text: comment)
+        self.dismiss(animated: true, completion: nil)
+    }
 
     
 

@@ -32,7 +32,8 @@
 		9299D7292421CAC50072F784 /* AddTextCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */; };
 		9299D72B2421CAD50072F784 /* AddAudioCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */; };
 		92B1A111241C6CB00010A13E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B1A110241C6CB00010A13E /* GoogleService-Info.plist */; };
-		E453457955DF907FCBD117F1 /* Pods_LambdaTimeline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39CACB677861CF84322FB5 /* Pods_LambdaTimeline.framework */; };
+		92D2E12C2422F67F00A90F5B /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2E12B2422F67F00A90F5B /* CommentTableViewCell.swift */; };
+		E631A4C5937126F608659B4B /* Pods_LambdaTimeline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A9F25E2DC02721535936F3 /* Pods_LambdaTimeline.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +67,8 @@
 		9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudioCommentViewController.swift; sourceTree = "<group>"; };
 		92B1A110241C6CB00010A13E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		92B1A112241DBC990010A13E /* Filters.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Filters.playground; path = LambdaTimeline/Filters.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AA39CACB677861CF84322FB5 /* Pods_LambdaTimeline.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LambdaTimeline.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92D2E12B2422F67F00A90F5B /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		C2A9F25E2DC02721535936F3 /* Pods_LambdaTimeline.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LambdaTimeline.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E453457955DF907FCBD117F1 /* Pods_LambdaTimeline.framework in Frameworks */,
+				E631A4C5937126F608659B4B /* Pods_LambdaTimeline.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				46CFE7022171572600E7FF73 /* ImagePostCollectionViewCell.swift */,
+				92D2E12B2422F67F00A90F5B /* CommentTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,7 +220,7 @@
 		7C2A25429FC0F968FC1D35E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA39CACB677861CF84322FB5 /* Pods_LambdaTimeline.framework */,
+				C2A9F25E2DC02721535936F3 /* Pods_LambdaTimeline.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -233,8 +236,8 @@
 				46463774216FDE4B00E7FF73 /* Sources */,
 				46463775216FDE4B00E7FF73 /* Frameworks */,
 				46463776216FDE4B00E7FF73 /* Resources */,
-				931381193B5D2856F9B0CA8C /* [CP] Embed Pods Frameworks */,
 				8108F7AF1127B3F2AAFC77E1 /* [CP] Copy Pods Resources */,
+				809251BAAE07A2237516BC03 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -315,6 +318,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		809251BAAE07A2237516BC03 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8108F7AF1127B3F2AAFC77E1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -330,23 +350,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		931381193B5D2856F9B0CA8C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -367,6 +370,7 @@
 				46CFE6F32170757F00E7FF73 /* User+DictionaryRepresentation.swift in Sources */,
 				46D571F32172D43B00E7FF73 /* Cache.swift in Sources */,
 				46CFE7012171559500E7FF73 /* FetchMediaOperation.swift in Sources */,
+				92D2E12C2422F67F00A90F5B /* CommentTableViewCell.swift in Sources */,
 				9299D72B2421CAD50072F784 /* AddAudioCommentViewController.swift in Sources */,
 				46D571F82173FC2700E7FF73 /* ImagePostDetailTableViewController.swift in Sources */,
 				46CFE7032171572600E7FF73 /* ImagePostCollectionViewCell.swift in Sources */,

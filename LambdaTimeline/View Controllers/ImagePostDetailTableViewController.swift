@@ -8,12 +8,21 @@
 
 import UIKit
 
+protocol AddTextCommentDelegate {
+     func addTextComment(text: String)
+ }
+
+protocol AddAudioCommentDelegate {
+    func addAudiComment(audioURL: URL)
+}
+
 class ImagePostDetailTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
     }
+    
     
     func updateViews() {
         
@@ -56,12 +65,19 @@ class ImagePostDetailTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
-        
         let comment = post?.comments[indexPath.row + 1]
         
-        cell.textLabel?.text = comment?.text
-        cell.detailTextLabel?.text = comment?.author.displayName
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell2", for: indexPath) as? CommentTableViewCell else { return UITableViewCell() }
+        
+        if comment?.text != nil {
+            cell.titleLabel.text = comment?.text
+            cell.authorLabel.text = comment?.author.displayName
+            cell.playButton.isHidden = true
+        } else {
+            // TODO: configure cell for audio
+//                cell.titleLabel.isHidden = true
+//                cell.playButton.isHidden = false
+        }
         
         return cell
     }
@@ -74,7 +90,7 @@ class ImagePostDetailTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "AddTextCommentSegue" {
             if let addTextCommentVC = segue.destination as? AddTextCommentViewController {
-                addTextCommentVC.postController = self.postController
+                addTextCommentVC.delegate = self
             }
         } else if segue.identifier == "AddAudioCommentSegue" {
             if let addAudioCommentVC = segue.destination as? AddAudioCommentViewController {
@@ -94,4 +110,11 @@ class ImagePostDetailTableViewController: UITableViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
+}
+
+extension ImagePostDetailTableViewController: AddTextCommentDelegate {
+    func addTextComment(text: String) {
+        postController.addComment(with: text, to: &post!)
+        tableView.reloadData()
+    }
 }
