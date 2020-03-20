@@ -477,7 +477,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cDs-v0-MBe">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tan-28-aRk">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tan-28-aRk">
                                                 <rect key="frame" x="0.0" y="0.0" width="55" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="liV-kr-gsI"/>
@@ -489,7 +489,7 @@
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Pel-1H-g8n">
                                                 <rect key="frame" x="61" y="0.0" width="221" height="31"/>
                                             </slider>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZl-1K-7vV">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZl-1K-7vV">
                                                 <rect key="frame" x="288" y="0.0" width="55" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="mIG-M9-kwI"/>
@@ -506,6 +506,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dQ5-up-5FE">
                                                 <rect key="frame" x="0.0" y="0.0" width="171.5" height="46"/>
                                                 <state key="normal" title="Button" image="play.fill" catalog="system"/>
+                                                <connections>
+                                                    <action selector="togglePlayback:" destination="Le3-zd-yab" eventType="touchUpInside" id="N37-5e-eaB"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZR5-Cd-ka9">
                                                 <rect key="frame" x="171.5" y="0.0" width="171.5" height="46"/>
@@ -518,11 +521,20 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eX5-9g-BGG">
+                                <rect key="frame" x="114" y="262" width="147" height="30"/>
+                                <state key="normal" title="Save Audio Comment"/>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="Le3-zd-yab" eventType="touchUpInside" id="zrx-9y-zcv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="zVx-kK-6ro" firstAttribute="leading" secondItem="KrZ-3a-2r8" secondAttribute="leading" constant="16" id="4I4-ZA-LPt"/>
                             <constraint firstItem="KrZ-3a-2r8" firstAttribute="trailing" secondItem="zVx-kK-6ro" secondAttribute="trailing" constant="16" id="BeV-Cp-tKC"/>
+                            <constraint firstItem="eX5-9g-BGG" firstAttribute="centerX" secondItem="3mx-VM-iGn" secondAttribute="centerX" id="Ilh-Pe-ns5"/>
+                            <constraint firstItem="eX5-9g-BGG" firstAttribute="top" secondItem="zVx-kK-6ro" secondAttribute="bottom" constant="20" id="fWP-8P-Afu"/>
                             <constraint firstItem="zVx-kK-6ro" firstAttribute="top" secondItem="KrZ-3a-2r8" secondAttribute="top" constant="150" id="jkS-be-wa8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KrZ-3a-2r8"/>
@@ -530,6 +542,7 @@
                     <connections>
                         <outlet property="playButton" destination="dQ5-up-5FE" id="Z6U-dO-b92"/>
                         <outlet property="recordButton" destination="ZR5-Cd-ka9" id="xPg-Mg-27a"/>
+                        <outlet property="saveAudioCommentButton" destination="eX5-9g-BGG" id="BbO-k7-CSC"/>
                         <outlet property="timeElapsedLabel" destination="Tan-28-aRk" id="p7t-Dz-JM9"/>
                         <outlet property="timeRemainingLabel" destination="aZl-1K-7vV" id="e7A-iv-h08"/>
                     </connections>

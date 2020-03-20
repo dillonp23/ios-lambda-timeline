@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class AddAudioCommentViewController: UIViewController {
     
@@ -14,25 +15,68 @@ class AddAudioCommentViewController: UIViewController {
     @IBOutlet weak var timeRemainingLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
-    
-    
-    var postController: PostController?
+    @IBOutlet weak var saveAudioCommentButton: UIButton!
 
+    var delegate: AddAudioCommentDelegate?
+    
+    var audioPlayer: AVAudioPlayer? {
+        didSet {
+            
+        }
+    }
+    
+    var isPlaying: Bool {
+        audioPlayer?.isPlaying ?? false
+    }
+    
+    private lazy var timeIntervalFormatter: DateComponentsFormatter = {
+        // NOTE: DateComponentFormatter is good for minutes/hours/seconds
+        // DateComponentsFormatter is not good for milliseconds, use DateFormatter instead)
+        
+        let formatting = DateComponentsFormatter()
+        formatting.unitsStyle = .positional // 00:00  mm:ss
+        formatting.zeroFormattingBehavior = .pad
+        formatting.allowedUnits = [.minute, .second]
+        return formatting
+    }()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Use a font that won't jump around as values change
+        timeElapsedLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeElapsedLabel.font.pointSize,
+                                                          weight: .regular)
+        timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
+                                                                   weight: .regular)
+        
     }
     
+    //MARK: - Actions
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        // TODO: Use the newly recorded audio comments url to update post's comments
+        if let url = URL(string: "testURL") {
+            delegate?.addAudiComment(audioURL: url)
+        }
     }
-    */
+    
+    @IBAction func togglePlayback(_ sender: Any) {
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
+    }
+    
+    //MARK: - Private Functions
+    
+    private func play() {
+        audioPlayer?.play()
+    }
+    
+    private func pause() {
+        audioPlayer?.pause()
+    }
 
 }

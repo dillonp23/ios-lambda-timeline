@@ -94,7 +94,7 @@ class ImagePostDetailTableViewController: UITableViewController {
             }
         } else if segue.identifier == "AddAudioCommentSegue" {
             if let addAudioCommentVC = segue.destination as? AddAudioCommentViewController {
-                addAudioCommentVC.postController = self.postController
+                addAudioCommentVC.delegate = self
             }
         }
     }
@@ -117,4 +117,11 @@ extension ImagePostDetailTableViewController: AddTextCommentDelegate {
         postController.addComment(with: text, to: &post!)
         tableView.reloadData()
     }
+}
+
+extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
+    func addAudiComment(audioURL: URL) {
+        tableView.reloadData()
+    }
+    
 }
