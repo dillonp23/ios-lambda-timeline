@@ -378,9 +378,9 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgj-Xh-keh">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jgj-Xh-keh">
                                                             <rect key="frame" x="0.0" y="30.5" width="267" height="30"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -389,13 +389,13 @@
                                                         <constraint firstAttribute="height" constant="60" id="Fgx-aw-ph8"/>
                                                     </constraints>
                                                 </stackView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xer-Bh-Blw">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xer-Bh-Blw">
                                                     <rect key="frame" x="275" y="0.0" width="60" height="60.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="nQa-OE-qL9"/>
                                                         <constraint firstAttribute="width" constant="60" id="qKY-En-GJ4"/>
                                                     </constraints>
-                                                    <state key="normal" title="Play"/>
+                                                    <state key="normal" title="Play" image="play.fill" catalog="system"/>
                                                     <connections>
                                                         <action selector="playButtonTapped:" destination="gWx-Ba-4ra" eventType="touchUpInside" id="O9X-YP-ej8"/>
                                                     </connections>

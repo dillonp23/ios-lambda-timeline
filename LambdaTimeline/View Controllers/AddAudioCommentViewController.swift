@@ -73,7 +73,7 @@ class AddAudioCommentViewController: UIViewController {
                                                           weight: .regular)
         timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
                                                                    weight: .regular)
-        
+        timeSlider.value = 0
         audioPlayer = AVAudioPlayer()
         saveAudioCommentButton.isEnabled = false
     }
