@@ -10,6 +10,12 @@ import UIKit
 
 class AddAudioCommentViewController: UIViewController {
     
+    @IBOutlet weak var timeElapsedLabel: UILabel!
+    @IBOutlet weak var timeRemainingLabel: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
+    
+    
     var postController: PostController?
 
     override func viewDidLoad() {
