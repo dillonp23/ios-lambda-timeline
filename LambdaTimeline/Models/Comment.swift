@@ -18,11 +18,11 @@ class Comment: FirebaseConvertible, Equatable {
     static private let timestampKey = "timestamp"
     
     let text: String?
-    let audioURL: URL?
+    let audioURL: String?
     let author: Author
     let timestamp: Date
     
-    init(text: String?, audioURL: URL?, author: Author, timestamp: Date = Date()) {
+    init(text: String?, audioURL: String?, author: Author, timestamp: Date = Date()) {
         self.text = text
         self.audioURL = audioURL
         self.author = author
@@ -33,13 +33,13 @@ class Comment: FirebaseConvertible, Equatable {
         self.init(text: text, audioURL: nil, author: author)
     }
 //
-    convenience init(audioURL: URL, author: Author) {
+    convenience init(audioURL: String, author: Author) {
         self.init(text: nil, audioURL: audioURL, author: author)
     }
     
     init?(dictionary: [String : Any]) {
-        guard let text = dictionary[Comment.textKey] as? String?,
-            let audioURL = dictionary[Comment.audioURLKey] as? URL?,
+        guard let audioURL = dictionary[Comment.audioURLKey] as? String?,
+            let text = dictionary[Comment.textKey] as? String?,
             let authorDictionary = dictionary[Comment.author] as? [String: Any],
             let author = Author(dictionary: authorDictionary),
             let timestampTimeInterval = dictionary[Comment.timestampKey] as? TimeInterval else { return nil }
