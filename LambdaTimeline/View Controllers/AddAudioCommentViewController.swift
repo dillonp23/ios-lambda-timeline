@@ -150,10 +150,14 @@ class AddAudioCommentViewController: UIViewController {
     }
     
     @IBAction func toggleRecording(_ sender: Any) {
-        
+        if isRecording {
+            stopRecording()
+        } else {
+         requestPermissionOrStartRecording()
+        }
     }
     
-    //MARK: - Private Functions
+    //MARK: - Audio Playback Methods
     
     func loadAudio() {
         
@@ -173,6 +177,7 @@ class AddAudioCommentViewController: UIViewController {
             startTimer()
         } catch {
             print("Error preparing audio session: \(error)")
+            return
         }
     }
     
@@ -181,6 +186,75 @@ class AddAudioCommentViewController: UIViewController {
         updateViews()
         cancelTimer()
     }
+    
+    //MARK: - Audio Recording Methods
+    
+    func startRecording() {
+        do {
+            try prepareAudioSession()
+        } catch {
+            print("Cannot prepare audio session for recording: \(error)")
+            return
+        }
+        
+        recordingURL = createNewRecordingURL()
+        
+        let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: recordingURL!, format: format)
+            audioRecorder?.record()
+        } catch {
+            preconditionFailure("Audio recorder could not be created with the url: \(recordingURL!) and the format: \(format)")
+        }
+        
+    }
+    
+    func stopRecording() {
+        audioRecorder?.stop()
+        
+    }
+    
+    func createNewRecordingURL() -> URL {
+            let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            
+            let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
+            let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
+            
+            return file
+        }
+        
+        
+        func requestPermissionOrStartRecording() {
+            switch AVAudioSession.sharedInstance().recordPermission {
+            case .undetermined:
+                AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                    guard granted == true else {
+                        print("We need microphone access")
+                        return
+                    }
+                    
+                    print("Recording permission has been granted!")
+                    // NOTE: Invite the user to tap record again, since we just interrupted them, and they may not have been ready to record
+                }
+            case .denied:
+                print("Microphone access has been blocked.")
+                
+                let alertController = UIAlertController(title: "Microphone Access Denied", message: "Please allow this app to access your Microphone.", preferredStyle: .alert)
+                
+                alertController.addAction(UIAlertAction(title: "Open Settings", style: .default) { (_) in
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                })
+                
+                alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                
+                present(alertController, animated: true, completion: nil)
+            case .granted:
+                startRecording()
+            @unknown default:
+                break
+            }
+        }
 
 }
 
@@ -196,5 +270,20 @@ extension AddAudioCommentViewController: AVAudioPlayerDelegate {
             print("Error decoding audio: \(error)")
         }
     }
+}
+
+
+extension AddAudioCommentViewController: AVAudioRecorderDelegate {
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        if let recordingURL = recordingURL {
+            audioPlayer = try? AVAudioPlayer(contentsOf: recordingURL)
+        }
+        audioRecorder = nil
+    }
     
+    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        if let error = error {
+            print("Audio recorder error: \(error)")
+        }
+    }
 }
