@@ -11,32 +11,41 @@ import FirebaseAuth
 
 class Comment: FirebaseConvertible, Equatable {
     
+    
     static private let textKey = "text"
-//    static private let audioURLKey = "audioURL"
+    static private let audioURLKey = "audioURL"
     static private let author = "author"
     static private let timestampKey = "timestamp"
     
-    let text: String
-//    let audioURL: URL?
+    let text: String?
+    let audioURL: URL?
     let author: Author
     let timestamp: Date
     
-    init(text: String, author: Author, timestamp: Date = Date()) {
+    init(text: String?, audioURL: URL?, author: Author, timestamp: Date = Date()) {
         self.text = text
-//        self.audioURL = audioURL
+        self.audioURL = audioURL
         self.author = author
         self.timestamp = timestamp
     }
     
+    convenience init(text: String, author: Author) {
+        self.init(text: text, audioURL: nil, author: author)
+    }
+//
+    convenience init(audioURL: URL, author: Author) {
+        self.init(text: nil, audioURL: audioURL, author: author)
+    }
+    
     init?(dictionary: [String : Any]) {
-        guard let text = dictionary[Comment.textKey] as? String,
-//            let audioURL = dictionary[Comment.audioURLKey] as? URL,
+        guard let text = dictionary[Comment.textKey] as? String?,
+            let audioURL = dictionary[Comment.audioURLKey] as? URL?,
             let authorDictionary = dictionary[Comment.author] as? [String: Any],
             let author = Author(dictionary: authorDictionary),
             let timestampTimeInterval = dictionary[Comment.timestampKey] as? TimeInterval else { return nil }
         
         self.text = text
-//        self.audioURL = audioURL
+        self.audioURL = audioURL
         self.author = author
         self.timestamp = Date(timeIntervalSince1970: timestampTimeInterval)
     }
@@ -44,7 +53,7 @@ class Comment: FirebaseConvertible, Equatable {
     var dictionaryRepresentation: [String: Any] {
         
         return [Comment.textKey: text,
-//                Comment.audioURLKey: audioURL as Any,
+                Comment.audioURLKey: audioURL,
                 Comment.author: author.dictionaryRepresentation,
                 Comment.timestampKey: timestamp.timeIntervalSince1970]
     }
