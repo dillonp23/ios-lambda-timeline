@@ -68,6 +68,7 @@ class AddAudioCommentViewController: UIViewController {
                                                                    weight: .regular)
         
         audioPlayer = AVAudioPlayer()
+        saveAudioCommentButton.isEnabled = false
     }
     
     func updateViews() {
@@ -200,6 +201,7 @@ class AddAudioCommentViewController: UIViewController {
             audioRecorder?.record()
             audioRecorder?.delegate = self
             audioRecorder?.isMeteringEnabled = true
+            saveAudioCommentButton.isEnabled = false
             updateViews()
             startTimer()
         } catch {
@@ -277,6 +279,7 @@ extension AddAudioCommentViewController: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if let recordingURL = recordingURL {
             audioPlayer = try? AVAudioPlayer(contentsOf: recordingURL)
+            saveAudioCommentButton.isEnabled = true
         }
         audioRecorder = nil
     }
