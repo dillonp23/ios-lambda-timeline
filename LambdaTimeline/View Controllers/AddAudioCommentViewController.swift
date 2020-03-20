@@ -21,13 +21,16 @@ class AddAudioCommentViewController: UIViewController {
     
     var audioPlayer: AVAudioPlayer? {
         didSet {
-            
+            guard let audioPlayer = audioPlayer else { return }
+            audioPlayer.delegate = self
         }
     }
     
     var isPlaying: Bool {
         audioPlayer?.isPlaying ?? false
     }
+    
+    
     
     private lazy var timeIntervalFormatter: DateComponentsFormatter = {
         // NOTE: DateComponentFormatter is good for minutes/hours/seconds
@@ -49,7 +52,11 @@ class AddAudioCommentViewController: UIViewController {
                                                           weight: .regular)
         timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
                                                                    weight: .regular)
-        
+        updateViews()
+    }
+    
+    func updateViews() {
+        playButton.isSelected = isPlaying
     }
     
     //MARK: - Actions
@@ -85,6 +92,7 @@ class AddAudioCommentViewController: UIViewController {
         do {
             try prepareAudioSession()
             audioPlayer?.play()
+            updateViews()
         } catch {
             print("Error preparing audio session: \(error)")
         }
@@ -92,6 +100,21 @@ class AddAudioCommentViewController: UIViewController {
     
     private func pause() {
         audioPlayer?.pause()
+        updateViews()
     }
 
+}
+
+extension AddAudioCommentViewController: AVAudioPlayerDelegate {
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        updateViews()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error = error {
+            print("Error decoding audio: \(error)")
+        }
+    }
+    
 }
