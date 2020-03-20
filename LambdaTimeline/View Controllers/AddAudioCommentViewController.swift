@@ -71,8 +71,23 @@ class AddAudioCommentViewController: UIViewController {
     
     //MARK: - Private Functions
     
+    func loadAudio() {
+        
+    }
+    
+    func prepareAudioSession() throws {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playAndRecord, options: [.defaultToSpeaker])
+        try session.setActive(true, options: []) // can fail if on a phone call, for instance
+    }
+    
     private func play() {
-        audioPlayer?.play()
+        do {
+            try prepareAudioSession()
+            audioPlayer?.play()
+        } catch {
+            print("Error preparing audio session: \(error)")
+        }
     }
     
     private func pause() {
