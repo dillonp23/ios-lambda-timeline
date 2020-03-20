@@ -26,6 +26,7 @@ class AddAudioCommentViewController: UIViewController {
         didSet {
             guard let audioPlayer = audioPlayer else { return }
             audioPlayer.delegate = self
+            updateViews()
         }
     }
 
@@ -65,23 +66,34 @@ class AddAudioCommentViewController: UIViewController {
                                                           weight: .regular)
         timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
                                                                    weight: .regular)
-        updateViews()
+        
+        audioPlayer = AVAudioPlayer()
     }
     
     func updateViews() {
+        playButton.isEnabled = !isRecording
+        recordButton.isEnabled = !isPlaying
+        timeSlider.isEnabled = !isRecording
         playButton.isSelected = isPlaying
+        recordButton.isSelected = isRecording
         
-        let elapsedTime = audioPlayer?.currentTime ?? 0
-        let duration = audioPlayer?.duration ?? 0
-        let timeRemaining = duration.rounded() - elapsedTime
-        
-        timeElapsedLabel.text = timeIntervalFormatter.string(from: elapsedTime)
-        
-        timeSlider.minimumValue = 0
-        timeSlider.maximumValue = Float(duration)
-        timeSlider.value = Float(elapsedTime)
-        
-        timeRemainingLabel.text = "-" + timeIntervalFormatter.string(from: timeRemaining)!
+        if !isRecording {
+            let elapsedTime = audioPlayer?.currentTime ?? 0
+            let duration = audioPlayer?.duration ?? 0
+            let timeRemaining = duration.rounded() - elapsedTime
+            timeElapsedLabel.text = timeIntervalFormatter.string(from: elapsedTime)
+            timeSlider.minimumValue = 0
+            timeSlider.maximumValue = Float(duration)
+            timeSlider.value = Float(elapsedTime)
+            timeRemainingLabel.text = "-" + timeIntervalFormatter.string(from: timeRemaining)!
+        } else {
+            let elapsedTime = audioRecorder?.currentTime ?? 0
+            timeElapsedLabel.text = "--:--"
+            timeSlider.minimumValue = 0
+            timeSlider.maximumValue = 1
+            timeSlider.value = 0
+            timeRemainingLabel.text = timeIntervalFormatter.string(from: elapsedTime)!
+        }
     }
     
     deinit {
@@ -99,21 +111,6 @@ class AddAudioCommentViewController: UIViewController {
             guard let self = self else { return }
             
             self.updateViews()
-            
-//            if let audioRecorder = self.audioRecorder,
-//                self.isRecording == true {
-//
-//                audioRecorder.updateMeters()
-//                self.audioVisualizer.addValue(decibelValue: audioRecorder.averagePower(forChannel: 0))
-//
-//            }
-            
-//            if let audioPlayer = self.audioPlayer,
-//                self.isPlaying == true {
-//
-//                audioPlayer.updateMeters()
-//                self.audioVisualizer.addValue(decibelValue: audioPlayer.averagePower(forChannel: 0))
-//            }
         }
     }
     
@@ -153,15 +150,11 @@ class AddAudioCommentViewController: UIViewController {
         if isRecording {
             stopRecording()
         } else {
-         requestPermissionOrStartRecording()
+            requestPermissionOrStartRecording()
         }
     }
     
     //MARK: - Audio Playback Methods
-    
-    func loadAudio() {
-        
-    }
     
     func prepareAudioSession() throws {
         let session = AVAudioSession.sharedInstance()
@@ -190,10 +183,11 @@ class AddAudioCommentViewController: UIViewController {
     //MARK: - Audio Recording Methods
     
     func startRecording() {
+        // try to prepare audio session
         do {
             try prepareAudioSession()
         } catch {
-            print("Cannot prepare audio session for recording: \(error)")
+            print("We could not record audio: \(error)")
             return
         }
         
@@ -204,15 +198,19 @@ class AddAudioCommentViewController: UIViewController {
         do {
             audioRecorder = try AVAudioRecorder(url: recordingURL!, format: format)
             audioRecorder?.record()
+            audioRecorder?.delegate = self
+            audioRecorder?.isMeteringEnabled = true
+            updateViews()
+            startTimer()
         } catch {
-            preconditionFailure("Audio recorder could not be created with the url: \(recordingURL!) and the format: \(format)")
+            preconditionFailure("The audio recorder could not be created with \(recordingURL!) and \(format)")
         }
-        
     }
     
     func stopRecording() {
         audioRecorder?.stop()
-        
+        updateViews()
+        cancelTimer()
     }
     
     func createNewRecordingURL() -> URL {
@@ -221,7 +219,9 @@ class AddAudioCommentViewController: UIViewController {
             let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
             let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
             
-            return file
+//        print("recording URL: \(file)")
+        
+        return file
         }
         
         
@@ -280,10 +280,9 @@ extension AddAudioCommentViewController: AVAudioRecorderDelegate {
         }
         audioRecorder = nil
     }
-    
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         if let error = error {
-            print("Audio recorder error: \(error)")
+            print("Audio Recorder Error: \(error)")
         }
     }
 }
