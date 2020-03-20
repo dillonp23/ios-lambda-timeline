@@ -129,6 +129,9 @@ class AddAudioCommentViewController: UIViewController {
         // TODO: Use the newly recorded audio comments url to update post's comments
         if let url = recordingURL {
             delegate?.addAudioComment(audioURL: url)
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            print("Error on line \(#line) in function \(#function) in file \(#file)")
         }
     }
     
