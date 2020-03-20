@@ -16,8 +16,11 @@ class AddAudioCommentViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var saveAudioCommentButton: UIButton!
-
+    @IBOutlet weak var timeSlider: UISlider!
+    
     var delegate: AddAudioCommentDelegate?
+    
+    //MARK: - AV Variables
     
     var audioPlayer: AVAudioPlayer? {
         didSet {
@@ -25,12 +28,22 @@ class AddAudioCommentViewController: UIViewController {
             audioPlayer.delegate = self
         }
     }
+
+    var audioRecorder: AVAudioRecorder?
+    var recordingURL: URL?
     
+    //MARK: - Current State
     var isPlaying: Bool {
         audioPlayer?.isPlaying ?? false
     }
     
+    var isRecording: Bool {
+        audioRecorder?.isRecording ?? false
+    }
     
+    
+    //MARK: - Timer & Date Formatter
+    weak var timer: Timer?
     
     private lazy var timeIntervalFormatter: DateComponentsFormatter = {
         // NOTE: DateComponentFormatter is good for minutes/hours/seconds
@@ -43,7 +56,7 @@ class AddAudioCommentViewController: UIViewController {
         return formatting
     }()
 
-    
+    //MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,7 +70,58 @@ class AddAudioCommentViewController: UIViewController {
     
     func updateViews() {
         playButton.isSelected = isPlaying
+        
+        let elapsedTime = audioPlayer?.currentTime ?? 0
+        let duration = audioPlayer?.duration ?? 0
+        let timeRemaining = duration.rounded() - elapsedTime
+        
+        timeElapsedLabel.text = timeIntervalFormatter.string(from: elapsedTime)
+        
+        timeSlider.minimumValue = 0
+        timeSlider.maximumValue = Float(duration)
+        timeSlider.value = Float(elapsedTime)
+        
+        timeRemainingLabel.text = "-" + timeIntervalFormatter.string(from: timeRemaining)!
     }
+    
+    deinit {
+        timer?.invalidate()
+    }
+    
+    
+    // MARK: - Timer
+    
+    
+    func startTimer() {
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.030, repeats: true) { [weak self] (_) in
+            guard let self = self else { return }
+            
+            self.updateViews()
+            
+//            if let audioRecorder = self.audioRecorder,
+//                self.isRecording == true {
+//
+//                audioRecorder.updateMeters()
+//                self.audioVisualizer.addValue(decibelValue: audioRecorder.averagePower(forChannel: 0))
+//
+//            }
+            
+//            if let audioPlayer = self.audioPlayer,
+//                self.isPlaying == true {
+//
+//                audioPlayer.updateMeters()
+//                self.audioVisualizer.addValue(decibelValue: audioPlayer.averagePower(forChannel: 0))
+//            }
+        }
+    }
+    
+    func cancelTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
     
     //MARK: - Actions
 
@@ -74,6 +138,19 @@ class AddAudioCommentViewController: UIViewController {
         } else {
             play()
         }
+    }
+    
+    @IBAction func updateCurrentTime(_ sender: UISlider) {
+        if isPlaying {
+            pause()
+        }
+        
+        audioPlayer?.currentTime = TimeInterval(sender.value)
+        updateViews()
+    }
+    
+    @IBAction func toggleRecording(_ sender: Any) {
+        
     }
     
     //MARK: - Private Functions
@@ -93,6 +170,7 @@ class AddAudioCommentViewController: UIViewController {
             try prepareAudioSession()
             audioPlayer?.play()
             updateViews()
+            startTimer()
         } catch {
             print("Error preparing audio session: \(error)")
         }
@@ -101,6 +179,7 @@ class AddAudioCommentViewController: UIViewController {
     private func pause() {
         audioPlayer?.pause()
         updateViews()
+        cancelTimer()
     }
 
 }
@@ -109,6 +188,7 @@ extension AddAudioCommentViewController: AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         updateViews()
+        cancelTimer()
     }
     
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
