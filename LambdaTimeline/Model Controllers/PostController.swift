@@ -35,7 +35,7 @@ class PostController {
         }
     }
     
-    func addComment(with text: String, to post: inout Post) {
+    func addTextComment(with text: String, to post: inout Post) {
         
         guard let currentUser = Auth.auth().currentUser,
             let author = Author(user: currentUser) else { return }
@@ -45,7 +45,18 @@ class PostController {
         
         savePostToFirebase(post)
     }
+    
+    func addAudioComment(with audioURL: URL, to post: inout Post) {
+        guard let currentUser = Auth.auth().currentUser,
+            let author = Author(user: currentUser) else { return }
+        
+        let comment = Comment(audioURL: audioURL, author: author)
+        post.comments.append(comment)
+        
+        savePostToFirebase(post)
+    }
 
+    
     func observePosts(completion: @escaping (Error?) -> Void) {
         
         postsRef.observe(.value, with: { (snapshot) in
