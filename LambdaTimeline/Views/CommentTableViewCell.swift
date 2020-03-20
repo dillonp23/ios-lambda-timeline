@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class CommentTableViewCell: UITableViewCell {
 
@@ -15,6 +16,8 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
+    var audioCommentURL: URL?
+    var audioPlayer = AVAudioPlayer()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +28,19 @@ class CommentTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func playButtonTapped(_ sender: Any) {
+        
+        guard let audioURL = audioCommentURL else { return }
+       
+        do {
+            self.audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+            self.audioPlayer.play()
+        } catch {
+            print("Error playign audio: \(error)")
+        }
+        
     }
 
 }

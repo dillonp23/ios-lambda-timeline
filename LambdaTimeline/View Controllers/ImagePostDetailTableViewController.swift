@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVFoundation
+import Firebase
 
 protocol AddTextCommentDelegate {
      func addTextComment(text: String)
@@ -73,12 +75,16 @@ class ImagePostDetailTableViewController: UITableViewController {
             cell.titleLabel.text = comment?.text
             cell.authorLabel.text = comment?.author.displayName
             cell.playButton.isHidden = true
-        } else {
+        } else if let audioURL = comment?.audioURL {
             // TODO: configure cell for audio
-//                cell.titleLabel.isHidden = true
-//                cell.playButton.isHidden = false
+            cell.titleLabel.isHidden = true
+            cell.playButton.isHidden = false
+            cell.authorLabel.text = comment?.author.displayName
+            if let url = URL(string: audioURL) {
+                let downloadURL = loadAudio(with: url)
+                cell.audioCommentURL = downloadURL
+            }
         }
-        
         return cell
     }
     
@@ -99,6 +105,32 @@ class ImagePostDetailTableViewController: UITableViewController {
         }
     }
     
+    func loadAudio(with url: URL) -> URL? {
+        let audioRef = Storage.storage().reference(forURL: "\(url)")
+        
+        let downloadURL = createNewAudioURL()
+        
+        audioRef.write(toFile: downloadURL) { (url, error) in
+            if let error = error {
+                print("Error occured: \(error)")
+                return
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        return downloadURL
+    }
+    
+    func createNewAudioURL() -> URL {
+        let documents = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
+        
+        let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
+        let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
+        
+    return file
+    }
+    
     
     var post: Post!
     var postController: PostController!
@@ -114,14 +146,17 @@ class ImagePostDetailTableViewController: UITableViewController {
 
 extension ImagePostDetailTableViewController: AddTextCommentDelegate {
     func addTextComment(text: String) {
-        postController.addComment(with: text, to: &post!)
+        postController.addTextComment(with: text, to: &post!)
         tableView.reloadData()
     }
 }
 
 extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
     func addAudioComment(audioURL: URL) {
-        tableView.reloadData()
+        postController.addAudioComment(audioURL: audioURL, oftype: .audio, to: post!) { (_) in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
-    
 }
