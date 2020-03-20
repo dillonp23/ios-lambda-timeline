@@ -34,6 +34,7 @@ class PostController {
             }
         }
     }
+
     
     func addTextComment(with text: String, to post: inout Post) {
         
@@ -46,14 +47,26 @@ class PostController {
         savePostToFirebase(post)
     }
     
-    func addAudioComment(with audioURL: URL, to post: inout Post) {
+    func addAudioComment(audioURL: URL, oftype mediaType: MediaType, to post: Post, completion: @escaping (Bool) -> Void) {
         guard let currentUser = Auth.auth().currentUser,
             let author = Author(user: currentUser) else { return }
-        
-        let comment = Comment(audioURL: audioURL, author: author)
-        post.comments.append(comment)
-        
-        savePostToFirebase(post)
+        do {
+            let audioData = try Data(contentsOf: audioURL)
+            store(mediaData: audioData, mediaType: .audio) { (mediaURL) in
+                guard let mediaURL = mediaURL else {
+                    completion(false)
+                    return
+                }
+                
+                let mediaURLString = mediaURL.absoluteString
+                let comment = Comment(audioURL: mediaURLString, author: author)
+                post.comments.append(comment)
+                self.savePostToFirebase(post)
+                completion(true)
+            }
+        } catch {
+            print("Error dealing with audio")
+        }
     }
 
     
@@ -131,6 +144,7 @@ class PostController {
     var posts: [Post] = []
     let currentUser = Auth.auth().currentUser
     let postsRef = Database.database().reference().child("posts")
+//    let commentsRef = Database.database().reference().child("comments")
     
     let storageRef = Storage.storage().reference()
     
