@@ -13,7 +13,7 @@ protocol AddTextCommentDelegate {
  }
 
 protocol AddAudioCommentDelegate {
-    func addAudiComment(audioURL: URL)
+    func addAudioComment(audioURL: URL)
 }
 
 class ImagePostDetailTableViewController: UITableViewController {
@@ -120,7 +120,7 @@ extension ImagePostDetailTableViewController: AddTextCommentDelegate {
 }
 
 extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
-    func addAudiComment(audioURL: URL) {
+    func addAudioComment(audioURL: URL) {
         tableView.reloadData()
     }
     

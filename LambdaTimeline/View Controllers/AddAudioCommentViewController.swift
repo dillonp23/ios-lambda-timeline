@@ -33,7 +33,8 @@ class AddAudioCommentViewController: UIViewController {
     var audioRecorder: AVAudioRecorder?
     var recordingURL: URL?
     
-    //MARK: - Current State
+    //MARK: - State Management
+    
     var isPlaying: Bool {
         audioPlayer?.isPlaying ?? false
     }
@@ -44,7 +45,12 @@ class AddAudioCommentViewController: UIViewController {
     
     
     //MARK: - Timer & Date Formatter
+    
     weak var timer: Timer?
+    
+    deinit {
+           timer?.invalidate()
+       }
     
     private lazy var timeIntervalFormatter: DateComponentsFormatter = {
         // NOTE: DateComponentFormatter is good for minutes/hours/seconds
@@ -57,7 +63,8 @@ class AddAudioCommentViewController: UIViewController {
         return formatting
     }()
 
-    //MARK: - View Did Load
+    //MARK: - View Set-Up
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -97,13 +104,8 @@ class AddAudioCommentViewController: UIViewController {
         }
     }
     
-    deinit {
-        timer?.invalidate()
-    }
     
-    
-    // MARK: - Timer
-    
+    // MARK: - Timer Functionality
     
     func startTimer() {
         timer?.invalidate()
@@ -125,8 +127,8 @@ class AddAudioCommentViewController: UIViewController {
 
     @IBAction func saveButtonTapped(_ sender: Any) {
         // TODO: Use the newly recorded audio comments url to update post's comments
-        if let url = URL(string: "testURL") {
-            delegate?.addAudiComment(audioURL: url)
+        if let url = recordingURL {
+            delegate?.addAudioComment(audioURL: url)
         }
     }
     
@@ -221,8 +223,6 @@ class AddAudioCommentViewController: UIViewController {
             let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
             let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
             
-//        print("recording URL: \(file)")
-        
         return file
         }
         
