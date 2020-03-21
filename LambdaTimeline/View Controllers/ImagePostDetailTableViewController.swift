@@ -24,6 +24,9 @@ class ImagePostDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         updateViews()
         audioPlayer = AVAudioPlayer()
+        
+        //TODO: Fix audio playback bug when tapping on cells -> set up playback to be based on play button and disable cell selection in table view
+//        tableView.allowsSelection = false
     }
     
     
@@ -95,26 +98,26 @@ class ImagePostDetailTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return }
-        
-        guard let audioData = cell.audioData else { return }
-        
-        do {
-            try prepareAudioSession()
-        } catch {
-            print("Error preparing audio session")
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(data: audioData)
-            audioPlayer?.play()
-        } catch {
-            print("Error preparing audio session: \(error)")
-            return
-        }
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return }
+//
+//        guard let audioData = cell.audioData else { return }
+//
+//        do {
+//            try prepareAudioSession()
+//        } catch {
+//            print("Error preparing audio session")
+//            return
+//        }
+//
+//        do {
+//            audioPlayer = try AVAudioPlayer(data: audioData)
+//            audioPlayer?.play()
+//        } catch {
+//            print("Error preparing audio session: \(error)")
+//            return
+//        }
+//    }
     
     // MARK: - Navigation
 
