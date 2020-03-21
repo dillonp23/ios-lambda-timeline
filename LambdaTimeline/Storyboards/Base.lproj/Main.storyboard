@@ -550,37 +550,45 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QR0-7f-I3H" customClass="CameraView" customModule="LambdaTimeline" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVp-F0-FqK">
-                                        <rect key="frame" x="137.5" y="463" width="100" height="100"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="eVp-F0-FqK" secondAttribute="height" multiplier="1:1" id="5RD-gk-TeJ"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="XxE-3A-HFq"/>
-                                        </constraints>
-                                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="Record"/>
-                                        <state key="selected" image="Stop"/>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="eVp-F0-FqK" secondAttribute="bottom" constant="60" id="IP6-8N-QHK"/>
-                                    <constraint firstItem="eVp-F0-FqK" firstAttribute="centerX" secondItem="QR0-7f-I3H" secondAttribute="centerX" id="iAQ-48-JPj"/>
-                                </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVp-F0-FqK">
+                                <rect key="frame" x="137.5" y="507" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="eVp-F0-FqK" secondAttribute="height" multiplier="1:1" id="5RD-gk-TeJ"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="XxE-3A-HFq"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="Record"/>
+                                <state key="selected" image="Stop"/>
+                                <connections>
+                                    <action selector="recordButtonTapped:" destination="mFk-cP-kiV" eventType="touchUpInside" id="NFO-jQ-k3d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="1Ww-fd-Z3r" firstAttribute="trailing" secondItem="QR0-7f-I3H" secondAttribute="trailing" id="0Ys-iI-Foi"/>
                             <constraint firstItem="1Ww-fd-Z3r" firstAttribute="bottom" secondItem="QR0-7f-I3H" secondAttribute="bottom" id="3sW-JT-cVM"/>
+                            <constraint firstItem="eVp-F0-FqK" firstAttribute="centerX" secondItem="NgN-UL-jfJ" secondAttribute="centerX" id="N0b-rL-LTE"/>
                             <constraint firstItem="QR0-7f-I3H" firstAttribute="leading" secondItem="1Ww-fd-Z3r" secondAttribute="leading" id="YCP-9T-bw1"/>
+                            <constraint firstItem="1Ww-fd-Z3r" firstAttribute="bottom" secondItem="eVp-F0-FqK" secondAttribute="bottom" constant="60" id="gRd-h2-w82"/>
                             <constraint firstItem="QR0-7f-I3H" firstAttribute="top" secondItem="1Ww-fd-Z3r" secondAttribute="top" id="kNk-Tv-QFh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Ww-fd-Z3r"/>
                     </view>
                     <navigationItem key="navigationItem" id="u7B-v2-fhV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="BEJ-hc-Ra4"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="BEJ-hc-Ra4">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="mFk-cP-kiV" id="78R-Kb-bk4"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cameraView" destination="QR0-7f-I3H" id="ZO3-ht-axp"/>
+                        <outlet property="recordButton" destination="eVp-F0-FqK" id="s2D-ac-9f9"/>
+                        <outlet property="saveButton" destination="BEJ-hc-Ra4" id="CMk-2h-3OD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBq-q6-YK2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

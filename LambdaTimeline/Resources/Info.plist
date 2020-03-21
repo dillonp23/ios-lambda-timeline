@@ -56,5 +56,7 @@
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your microphone to record audio comments.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your camera in order to record video</string>
 </dict>
 </plist>

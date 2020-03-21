@@ -10,11 +10,26 @@ import UIKit
 import AVFoundation
 
 class CameraViewController: UIViewController {
-
+    
+    lazy private var captureSession = AVCaptureSession()
+    lazy private var fileOutput = AVCaptureMovieFileOutput()
+    
+    var player: AVPlayer!
+    
+    @IBOutlet var recordButton: UIButton!
+    @IBOutlet var cameraView: CameraView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
     
 
+    @IBAction func saveButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func recordButtonTapped(_ sender: Any) {
+    }
+    
 }
