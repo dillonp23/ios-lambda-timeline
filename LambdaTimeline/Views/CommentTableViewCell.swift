@@ -16,31 +16,56 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
-    var audioCommentURL: URL?
-    var audioPlayer = AVAudioPlayer()
+    var audioData: Data?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     @IBAction func playButtonTapped(_ sender: Any) {
         
-        guard let audioURL = audioCommentURL else { return }
-       
-        do {
-            self.audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
-            self.audioPlayer.play()
-        } catch {
-            print("Error playign audio: \(error)")
-        }
-        
+//        guard let audioData = audioData else { return }
+//
+//        if let url = audioCommentURL {
+//
+//            do {
+//                let audio = try AVAudioPlayer(contentsOf: url)
+//                audio.prepareToPlay()
+//                audio.play()
+//            } catch {
+//                print("Error playing audio data from file: \(error)")
+//            }
+//
+//        } else {
+//            audioCommentURL = createNewRecordingURL()
+//
+//            do {
+//                try audioData.write(to: audioCommentURL!)
+//            } catch {
+//                print("Error writing audio data to file: \(error)")
+//            }
+//            
+//            do {
+//                let audio = try AVAudioPlayer(contentsOf: audioCommentURL!)
+//                audio.prepareToPlay()
+//                audio.play()
+//            } catch {
+//                print("Error playing audio data from file: \(error)")
+//            }
+//        }
     }
+    
+//    func createNewRecordingURL() -> URL {
+//        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//
+//        let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
+//        let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
+//
+//    return file
+//    }
 
 }

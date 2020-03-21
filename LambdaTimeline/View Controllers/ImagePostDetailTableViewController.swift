@@ -23,6 +23,7 @@ class ImagePostDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
+        audioPlayer = AVAudioPlayer()
     }
     
     
@@ -63,29 +64,56 @@ class ImagePostDetailTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (post?.comments.count ?? 0) - 1
+        return (post?.comments.count ?? 0)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let comment = post?.comments[indexPath.row + 1]
+        let comment = post?.comments[indexPath.row]
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell2", for: indexPath) as? CommentTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return UITableViewCell() }
         
-        if comment?.text != nil {
-            cell.titleLabel.text = comment?.text
-            cell.authorLabel.text = comment?.author.displayName
-            cell.playButton.isHidden = true
-        } else if let audioURL = comment?.audioURL {
-            // TODO: configure cell for audio
+        if comment?.audioURL != nil {
+            loadAudio(for: cell, forItemAt: indexPath)
             cell.titleLabel.isHidden = true
             cell.playButton.isHidden = false
-            cell.authorLabel.text = comment?.author.displayName
-            if let url = URL(string: audioURL) {
-                let downloadURL = loadAudio(with: url)
-                cell.audioCommentURL = downloadURL
-            }
+        } else {
+            cell.titleLabel.text = comment?.text
+            cell.playButton.isHidden = true
         }
+        
+        
+        cell.authorLabel.text = comment?.author.displayName
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let comment = post.comments[indexPath.row]
+        
+        if let commentID = comment.audioURL {
+            operations[commentID]?.cancel()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return }
+        
+        guard let audioData = cell.audioData else { return }
+        
+        do {
+            try prepareAudioSession()
+        } catch {
+            print("Error preparing audio session")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(data: audioData)
+            audioPlayer?.play()
+        } catch {
+            print("Error preparing audio session: \(error)")
+            return
+        }
     }
     
     // MARK: - Navigation
@@ -105,37 +133,75 @@ class ImagePostDetailTableViewController: UITableViewController {
         }
     }
     
-    func loadAudio(with url: URL) -> URL? {
-        let audioRef = Storage.storage().reference(forURL: "\(url)")
+    func loadAudio(for postCommentCell: CommentTableViewCell, forItemAt indexPath: IndexPath) {
+        let comment = post.comments[indexPath.row]
         
-        let downloadURL = createNewAudioURL()
+        guard let commentID = comment.audioURL else { return }
         
-        audioRef.write(toFile: downloadURL) { (url, error) in
-            if let error = error {
-                print("Error occured: \(error)")
-                return
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+        if let audioData = cache.value(for: commentID) {
+            postCommentCell.audioData = audioData
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            return
+        }
+        
+        let fetchOp = FetchAudioOperation(comment: comment, postController: postController)
+        
+        let cacheOp = BlockOperation {
+            if let data = fetchOp.audioData {
+                self.cache.cache(value: data, for: commentID)
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
             }
         }
-        return downloadURL
+
+        let completionOp = BlockOperation {
+            defer { self.operations.removeValue(forKey: commentID) }
+
+            if let currentIndexPath = self.tableView.indexPath(for: postCommentCell),
+                currentIndexPath != indexPath {
+                print("Got audio for now-reused cell")
+                return
+            }
+            
+            if let data = fetchOp.audioData {
+                postCommentCell.audioData = data
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
+        
+        cacheOp.addDependency(fetchOp)
+        completionOp.addDependency(fetchOp)
+        
+        audioFetchQueue.addOperation(fetchOp)
+        audioFetchQueue.addOperation(cacheOp)
+        OperationQueue.main.addOperation(completionOp)
+        
+        operations[commentID] = fetchOp
     }
     
-    func createNewAudioURL() -> URL {
-        let documents = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
-        
-        let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
-        let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
-        
-    return file
+    func prepareAudioSession() throws {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playAndRecord, options: [.defaultToSpeaker])
+        try session.setActive(true, options: []) // can fail if on a phone call, for instance
     }
-    
     
     var post: Post!
     var postController: PostController!
     var imageData: Data?
     
+    var audioPlayer: AVAudioPlayer? {
+        didSet {
+            guard let audioPlayer = audioPlayer else { return }
+            audioPlayer.delegate = self
+            updateViews()
+        }
+    }
+ 
+    
+    private var operations = [String : Operation]()
+    private let audioFetchQueue = OperationQueue()
+    private let cache = Cache<String, Data>()
     
     
     @IBOutlet weak var imageView: UIImageView!
@@ -156,7 +222,27 @@ extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
         postController.addAudioComment(audioURL: audioURL, oftype: .audio, to: post!) { (_) in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                let fileManager = FileManager()
+                
+                do {
+                    print(audioURL)
+                    try fileManager.removeItem(at: audioURL)
+                } catch {
+                    print("Error removing item at URL: \(audioURL)")
+                }
             }
+        }
+    }
+}
+
+extension ImagePostDetailTableViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        tableView.reloadData()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error = error {
+            print("Error decoding audio: \(error)")
         }
     }
 }
