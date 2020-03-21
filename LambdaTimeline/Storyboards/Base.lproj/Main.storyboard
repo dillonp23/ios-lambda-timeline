@@ -96,7 +96,7 @@
                     <connections>
                         <segue destination="1Aw-4e-BW2" kind="show" identifier="AddImagePost" id="jaI-fq-Woc"/>
                         <segue destination="OyM-8q-Icp" kind="show" identifier="ViewImagePost" id="hhs-es-AdQ"/>
-                        <segue destination="mFk-cP-kiV" kind="show" identifier="AddVideoPost" id="wU3-yo-N46"/>
+                        <segue destination="mFk-cP-kiV" kind="presentation" identifier="AddVideoPost" id="wU3-yo-N46"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WRz-lg-pQU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -545,15 +545,15 @@
             <objects>
                 <viewController title="CameraViewController" id="mFk-cP-kiV" customClass="CameraViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NgN-UL-jfJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QR0-7f-I3H" customClass="CameraView" customModule="LambdaTimeline" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVp-F0-FqK">
-                                <rect key="frame" x="137.5" y="507" width="100" height="100"/>
+                                <rect key="frame" x="137.5" y="487" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eVp-F0-FqK" secondAttribute="height" multiplier="1:1" id="5RD-gk-TeJ"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="XxE-3A-HFq"/>
@@ -565,34 +565,45 @@
                                     <action selector="recordButtonTapped:" destination="mFk-cP-kiV" eventType="touchUpInside" id="NFO-jQ-k3d"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xhb-4H-Xsw">
+                                <rect key="frame" x="285" y="517" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Xhb-4H-Xsw" secondAttribute="height" multiplier="1:1" id="5pB-1i-P8Q"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="SF6-zh-LJR"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="paperplane.fill" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="mFk-cP-kiV" eventType="touchUpInside" id="ZKn-nu-U1R"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="1Ww-fd-Z3r" firstAttribute="trailing" secondItem="QR0-7f-I3H" secondAttribute="trailing" id="0Ys-iI-Foi"/>
+                            <constraint firstItem="1Ww-fd-Z3r" firstAttribute="trailing" secondItem="Xhb-4H-Xsw" secondAttribute="trailing" constant="50" id="2Vk-Vp-67u"/>
                             <constraint firstItem="1Ww-fd-Z3r" firstAttribute="bottom" secondItem="QR0-7f-I3H" secondAttribute="bottom" id="3sW-JT-cVM"/>
+                            <constraint firstItem="Xhb-4H-Xsw" firstAttribute="centerY" secondItem="eVp-F0-FqK" secondAttribute="centerY" id="AUi-3O-U3C"/>
                             <constraint firstItem="eVp-F0-FqK" firstAttribute="centerX" secondItem="NgN-UL-jfJ" secondAttribute="centerX" id="N0b-rL-LTE"/>
                             <constraint firstItem="QR0-7f-I3H" firstAttribute="leading" secondItem="1Ww-fd-Z3r" secondAttribute="leading" id="YCP-9T-bw1"/>
                             <constraint firstItem="1Ww-fd-Z3r" firstAttribute="bottom" secondItem="eVp-F0-FqK" secondAttribute="bottom" constant="60" id="gRd-h2-w82"/>
                             <constraint firstItem="QR0-7f-I3H" firstAttribute="top" secondItem="1Ww-fd-Z3r" secondAttribute="top" id="kNk-Tv-QFh"/>
+                            <constraint firstItem="Xhb-4H-Xsw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eVp-F0-FqK" secondAttribute="trailing" constant="20" id="plX-CW-CDm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Ww-fd-Z3r"/>
                     </view>
-                    <navigationItem key="navigationItem" id="u7B-v2-fhV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="BEJ-hc-Ra4">
-                            <connections>
-                                <action selector="saveButtonTapped:" destination="mFk-cP-kiV" id="78R-Kb-bk4"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="u7B-v2-fhV"/>
                     <connections>
                         <outlet property="cameraView" destination="QR0-7f-I3H" id="ZO3-ht-axp"/>
                         <outlet property="recordButton" destination="eVp-F0-FqK" id="s2D-ac-9f9"/>
-                        <outlet property="saveButton" destination="BEJ-hc-Ra4" id="CMk-2h-3OD"/>
+                        <outlet property="saveButton" destination="Xhb-4H-Xsw" id="NC5-2z-h5d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBq-q6-YK2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1969" y="-734"/>
+            <point key="canvasLocation" x="1968.8" y="-734.48275862068976"/>
         </scene>
         <!--Add Text Comment View Controller-->
         <scene sceneID="Q1R-8J-bqB">
@@ -647,6 +658,7 @@
         <image name="Record" width="116" height="116"/>
         <image name="Stop" width="116" height="116"/>
         <image name="mic.fill" catalog="system" width="54" height="64"/>
+        <image name="paperplane.fill" catalog="system" width="64" height="60"/>
         <image name="pause.fill" catalog="system" width="58" height="64"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="playpause.fill" catalog="system" width="64" height="36"/>
