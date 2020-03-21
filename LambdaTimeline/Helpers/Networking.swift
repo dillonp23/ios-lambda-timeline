@@ -49,3 +49,11 @@ enum Networking {
         return urlComponents?.url ?? nil
     }
 }
+
+enum NetworkingError: String, Error {
+    case badData = "Bad Data"
+    case noDecode = "No Decode"
+    case badAuth = "Bad Auth"
+    case otherError = "Other Error"
+    case firebaseStorageError = "Firebase Storage Error"
+}

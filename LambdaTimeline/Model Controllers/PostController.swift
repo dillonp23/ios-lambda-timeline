@@ -47,14 +47,18 @@ class PostController {
         savePostToFirebase(post)
     }
     
-    func addAudioComment(audioURL: URL, oftype mediaType: MediaType, to post: Post, completion: @escaping (Bool) -> Void) {
+    func addAudioComment(audioURL: URL, oftype mediaType: MediaType, to post: Post, completion: @escaping (Error?) -> Void) {
         guard let currentUser = Auth.auth().currentUser,
-            let author = Author(user: currentUser) else { return }
+            let author = Author(user: currentUser) else {
+                completion(NetworkingError.badAuth)
+                return
+        }
+        
         do {
             let audioData = try Data(contentsOf: audioURL)
             store(mediaData: audioData, mediaType: .audio) { (mediaURL) in
                 guard let mediaURL = mediaURL else {
-                    completion(false)
+                    completion(NetworkingError.firebaseStorageError)
                     return
                 }
                 
@@ -62,10 +66,12 @@ class PostController {
                 let comment = Comment(audioURL: mediaURLString, author: author)
                 post.comments.append(comment)
                 self.savePostToFirebase(post)
-                completion(true)
+                completion(nil)
             }
         } catch {
-            print("Error dealing with audio")
+            print("Error dealing with audio: \(error)")
+            completion(error)
+            return
         }
     }
 

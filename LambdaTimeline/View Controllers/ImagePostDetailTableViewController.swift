@@ -219,11 +219,17 @@ extension ImagePostDetailTableViewController: AddTextCommentDelegate {
 
 extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
     func addAudioComment(audioURL: URL) {
-        postController.addAudioComment(audioURL: audioURL, oftype: .audio, to: post!) { (_) in
+        postController.addAudioComment(audioURL: audioURL, oftype: .audio, to: post!) { (error) in
+            if let error = error {
+                print("Error saving audio to firebase storage: \(error)")
+                return
+            }
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 let fileManager = FileManager()
                 
+                // To save space in local stprage, delete the file at the orignal location after storing to firebase
                 do {
                     print(audioURL)
                     try fileManager.removeItem(at: audioURL)
