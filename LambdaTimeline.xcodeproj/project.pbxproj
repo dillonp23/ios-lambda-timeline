@@ -30,6 +30,8 @@
 		46D571F52173CF3E00E7FF73 /* UIImage+Ratio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F42173CF3E00E7FF73 /* UIImage+Ratio.swift */; };
 		46D571F82173FC2700E7FF73 /* ImagePostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */; };
 		926F62CE24258086006A3299 /* FetchAudioOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CD24258086006A3299 /* FetchAudioOperation.swift */; };
+		926F62D02426A752006A3299 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CF2426A752006A3299 /* CameraViewController.swift */; };
+		926F62D22426A8EC006A3299 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62D12426A8EC006A3299 /* CameraView.swift */; };
 		9299D7292421CAC50072F784 /* AddTextCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */; };
 		9299D72B2421CAD50072F784 /* AddAudioCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */; };
 		92B1A111241C6CB00010A13E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B1A110241C6CB00010A13E /* GoogleService-Info.plist */; };
@@ -65,6 +67,8 @@
 		46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostDetailTableViewController.swift; sourceTree = "<group>"; };
 		5D2CCD6C68779B0A70AC37FA /* Pods-LambdaTimeline.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LambdaTimeline.release.xcconfig"; path = "Pods/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline.release.xcconfig"; sourceTree = "<group>"; };
 		926F62CD24258086006A3299 /* FetchAudioOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAudioOperation.swift; sourceTree = "<group>"; };
+		926F62CF2426A752006A3299 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		926F62D12426A8EC006A3299 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTextCommentViewController.swift; sourceTree = "<group>"; };
 		9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudioCommentViewController.swift; sourceTree = "<group>"; };
 		92B1A110241C6CB00010A13E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 				46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */,
 				9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */,
 				9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */,
+				926F62CF2426A752006A3299 /* CameraViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 			children = (
 				46CFE7022171572600E7FF73 /* ImagePostCollectionViewCell.swift */,
 				92D2E12B2422F67F00A90F5B /* CommentTableViewCell.swift */,
+				926F62D12426A8EC006A3299 /* CameraView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,6 +373,7 @@
 				46CFE6FB21714E6100E7FF73 /* Author.swift in Sources */,
 				46CFE6F92170862C00E7FF73 /* ShiftableViewController.swift in Sources */,
 				4646377C216FDE4B00E7FF73 /* AppDelegate.swift in Sources */,
+				926F62D02426A752006A3299 /* CameraViewController.swift in Sources */,
 				46CFE6FD217154F500E7FF73 /* Networking.swift in Sources */,
 				46CFE6F521707D0000E7FF73 /* ImagePostViewController.swift in Sources */,
 				46CFE6FF2171556D00E7FF73 /* ConcurrentOperation.swift in Sources */,
@@ -384,6 +391,7 @@
 				46D571F52173CF3E00E7FF73 /* UIImage+Ratio.swift in Sources */,
 				9299D7292421CAC50072F784 /* AddTextCommentViewController.swift in Sources */,
 				46463792216FFDD900E7FF73 /* Comment.swift in Sources */,
+				926F62D22426A8EC006A3299 /* CameraView.swift in Sources */,
 				46CFE6F721707FA600E7FF73 /* UIViewController+InformationalAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
