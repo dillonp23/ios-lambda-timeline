@@ -17,9 +17,11 @@ class CameraViewController: UIViewController {
     
     lazy private var captureSession = AVCaptureSession()
     lazy private var fileOutput = AVCaptureMovieFileOutput()
+    lazy private var playerLayer = AVPlayerLayer()
     
     var player: AVPlayer!
     var postController: PostController?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +137,7 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func recordButtonTapped(_ sender: Any) {
+        playerLayer.removeFromSuperlayer()
         toggleRecording()
     }
     
@@ -171,12 +174,22 @@ class CameraViewController: UIViewController {
     private func playMovie(url: URL) {
         player = AVPlayer(url: url)
         
-        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer = AVPlayerLayer(player: player)
         
-        let playbackView = view.bounds
+        var playbackView = view.bounds
+        playbackView.size.height /= 3.5
+        playbackView.size.width /= 3.5
+        playbackView.origin.y = view.layoutMargins.top + 25
+        playbackView.origin.x = view.layoutMargins.left
+
+        playerLayer.cornerRadius = 8
+        playerLayer.masksToBounds = true
+        
+        playerLayer.videoGravity = .resizeAspectFill
         
         playerLayer.frame = playbackView
         view.layer.addSublayer(playerLayer)
+        
         
         player.play()
     }
