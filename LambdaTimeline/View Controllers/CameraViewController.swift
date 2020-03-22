@@ -21,6 +21,17 @@ class CameraViewController: UIViewController {
     
     var player: AVPlayer!
     var postController: PostController?
+    var videoURL: URL? {
+        didSet {
+            do {
+                videoData = try Data(contentsOf: videoURL!)
+            } catch  {
+                print("Error converting video to data: \(error)")
+            }
+        }
+    }
+    
+    var videoData: Data?
 
     
     override func viewDidLoad() {
@@ -124,11 +135,10 @@ class CameraViewController: UIViewController {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         
         let addPostAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
-            guard let postController = self.postController, let title = alert.textFields?.first?.text else { return }
-            print(postController)
-            print(title)
-            
-//            postController.createPost(with: title, ofType: .video, mediaData: <#T##Data#>, ratio: <#T##CGFloat?#>, completion: <#T##(Bool) -> Void#>)
+            if let title = alert.textFields?.first?.text {
+                self.saveToFirebase(title: title)
+                self.dismiss(animated: true, completion: nil)
+            }
         }
         
         alert.addAction(cancel)
@@ -139,6 +149,22 @@ class CameraViewController: UIViewController {
     @IBAction func recordButtonTapped(_ sender: Any) {
         playerLayer.removeFromSuperlayer()
         toggleRecording()
+    }
+    
+    // MARK: - Upload/Save/Delete Video
+    
+    private func saveToFirebase(title: String) {
+        guard let postController = postController, let videoData = videoData, let url = videoURL else { return }
+        
+        postController.createPost(with: title, ofType: .video, mediaData: videoData, ratio: nil) { (true) in
+            if true {
+                do {
+                    try FileManager().removeItem(at: url)
+                } catch {
+                    print("Error removing video file at url: \(url)")
+                }
+            }
+        }
     }
     
     //MARK: - Video Recording Functions
@@ -184,16 +210,13 @@ class CameraViewController: UIViewController {
 
         playerLayer.cornerRadius = 8
         playerLayer.masksToBounds = true
-        
         playerLayer.videoGravity = .resizeAspectFill
         
         playerLayer.frame = playbackView
         view.layer.addSublayer(playerLayer)
         
-        
         player.play()
     }
-    
 }
 
 
@@ -208,10 +231,8 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
             print("Error saving video to file output: \(error)")
         }
         
-        print("Video url: \(outputFileURL)")
-        
+        videoURL = outputFileURL
         updateViews()
-        
         playMovie(url: outputFileURL)
     }
     

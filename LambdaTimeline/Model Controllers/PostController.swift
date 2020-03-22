@@ -22,9 +22,9 @@ class PostController {
             
             guard let mediaURL = mediaURL else { completion(false); return }
             
-            let imagePost = Post(title: title, mediaURL: mediaURL, ratio: ratio, author: author)
+            let mediaPost = Post(title: title, mediaURL: mediaURL, ratio: ratio, author: author)
             
-            self.postsRef.childByAutoId().setValue(imagePost.dictionaryRepresentation) { (error, ref) in
+            self.postsRef.childByAutoId().setValue(mediaPost.dictionaryRepresentation) { (error, ref) in
                 if let error = error {
                     NSLog("Error posting image post: \(error)")
                     completion(false)

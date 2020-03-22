@@ -32,6 +32,7 @@
 		926F62CE24258086006A3299 /* FetchAudioOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CD24258086006A3299 /* FetchAudioOperation.swift */; };
 		926F62D02426A752006A3299 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CF2426A752006A3299 /* CameraViewController.swift */; };
 		926F62D22426A8EC006A3299 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62D12426A8EC006A3299 /* CameraView.swift */; };
+		926F62D42426F782006A3299 /* VideoPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62D32426F782006A3299 /* VideoPostCollectionViewCell.swift */; };
 		9299D7292421CAC50072F784 /* AddTextCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */; };
 		9299D72B2421CAD50072F784 /* AddAudioCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */; };
 		92B1A111241C6CB00010A13E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B1A110241C6CB00010A13E /* GoogleService-Info.plist */; };
@@ -69,6 +70,7 @@
 		926F62CD24258086006A3299 /* FetchAudioOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAudioOperation.swift; sourceTree = "<group>"; };
 		926F62CF2426A752006A3299 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		926F62D12426A8EC006A3299 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		926F62D32426F782006A3299 /* VideoPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTextCommentViewController.swift; sourceTree = "<group>"; };
 		9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudioCommentViewController.swift; sourceTree = "<group>"; };
 		92B1A110241C6CB00010A13E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				46CFE7022171572600E7FF73 /* ImagePostCollectionViewCell.swift */,
 				92D2E12B2422F67F00A90F5B /* CommentTableViewCell.swift */,
 				926F62D12426A8EC006A3299 /* CameraView.swift */,
+				926F62D32426F782006A3299 /* VideoPostCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				926F62D42426F782006A3299 /* VideoPostCollectionViewCell.swift in Sources */,
 				926F62CE24258086006A3299 /* FetchAudioOperation.swift in Sources */,
 				46A0366D2170158900E7FF73 /* SignInViewController.swift in Sources */,
 				46CFE6FB21714E6100E7FF73 /* Author.swift in Sources */,
