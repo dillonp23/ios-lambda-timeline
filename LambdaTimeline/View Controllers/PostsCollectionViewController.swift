@@ -91,7 +91,7 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             
             size.height = size.width * ratio
         case .video:
-            size = CGSize(width: view.bounds.width, height: view.bounds.height)
+            size = CGSize(width: view.bounds.width, height: view.bounds.width)
         default:
             return size
         }
@@ -112,7 +112,9 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
         
         if let cell = cell as? ImagePostCollectionViewCell,
             cell.imageView.image != nil {
-            self.performSegue(withIdentifier: "ViewImagePost", sender: nil)
+            self.performSegue(withIdentifier: "ViewMediaPost", sender: nil)
+        } else if let cell = cell as? VideoPostCollectionViewCell {
+            self.performSegue(withIdentifier: "ViewMediaPost", sender: nil)
         }
     }
     
@@ -240,19 +242,25 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             let videoPostVC = segue.destination as? CameraViewController
             videoPostVC?.postController = postController
             
-        } else if segue.identifier == "ViewImagePost" {
+        } else if segue.identifier == "ViewMediaPost" {
             
-            let destinationVC = segue.destination as? ImagePostDetailTableViewController
+            let destinationVC = segue.destination as? MediaPostDetailTableViewController
             
-            guard let indexPath = collectionView.indexPathsForSelectedItems?.first,
-                let postID = postController.posts[indexPath.row].id else { return }
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else { return }
+            
+            let post = postController.posts[indexPath.row]
+            
+            guard let postID = post.id else { return }
             
             destinationVC?.postController = postController
-            destinationVC?.post = postController.posts[indexPath.row]
-            destinationVC?.imageData = cache.value(for: postID)
+            destinationVC?.post = post
             
-        } else if segue.identifier == "ViewVideoPost" {
-            // TODO: allow for clicking on the cell to load videos and leave comments
+            if post.mediaType == .image {
+                destinationVC?.imageData = cache.value(for: postID)
+            } else if post.mediaType == .video {
+                destinationVC?.videoData = cache.value(for: postID)
+            }
+            
         }
     }
     

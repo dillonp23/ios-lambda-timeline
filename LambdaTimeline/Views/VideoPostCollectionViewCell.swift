@@ -57,7 +57,7 @@ class VideoPostCollectionViewCell: UICollectionViewCell {
     }
     
     func setupVideoPlayer(with data: Data) {
-
+        
         let video = AVMovie(data: data, options: .none)
         playerItem = AVPlayerItem(asset: video)
         avPlayer = AVQueuePlayer(playerItem: playerItem)

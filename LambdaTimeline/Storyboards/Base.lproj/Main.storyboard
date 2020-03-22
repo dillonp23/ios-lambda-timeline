@@ -89,7 +89,8 @@
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Cu-vV-yHF">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5zZ-2z-oK0">
                                             <rect key="frame" x="8" y="329" width="47" height="38"/>
@@ -154,7 +155,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="1Aw-4e-BW2" kind="show" identifier="AddImagePost" id="jaI-fq-Woc"/>
-                        <segue destination="OyM-8q-Icp" kind="show" identifier="ViewImagePost" id="hhs-es-AdQ"/>
+                        <segue destination="OyM-8q-Icp" kind="show" identifier="ViewMediaPost" id="hhs-es-AdQ"/>
                         <segue destination="mFk-cP-kiV" kind="presentation" identifier="AddVideoPost" id="wU3-yo-N46"/>
                     </connections>
                 </collectionViewController>
@@ -230,13 +231,13 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJS-fN-Jp1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
-                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
+                                                                <rect key="frame" x="56" y="0.0" width="321" height="31"/>
                                                                 <connections>
                                                                     <action selector="topSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="GNB-dd-jCu"/>
                                                                 </connections>
@@ -247,13 +248,13 @@
                                                         <rect key="frame" x="0.0" y="46" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyL-t6-r5h">
-                                                                <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
-                                                                <rect key="frame" x="60" y="0.0" width="317" height="31"/>
+                                                                <rect key="frame" x="56" y="0.0" width="321" height="31"/>
                                                                 <connections>
                                                                     <action selector="bottomSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="Ycp-RH-gXE"/>
                                                                 </connections>
@@ -369,7 +370,7 @@
         <!--Title-->
         <scene sceneID="9zi-Aq-zJI">
             <objects>
-                <tableViewController id="OyM-8q-Icp" customClass="ImagePostDetailTableViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="OyM-8q-Icp" customClass="MediaPostDetailTableViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="moa-Dk-chJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -381,8 +382,15 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="du3-3a-NOA">
                                     <rect key="frame" x="8" y="2" width="359" height="95"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q0L-w5-qUw">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIh-sU-Wui">
                                             <rect key="frame" x="0.0" y="0.0" width="95" height="95"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="QIh-sU-Wui" secondAttribute="height" multiplier="1:1" id="QnM-oJ-XfK"/>
+                                            </constraints>
+                                        </view>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q0L-w5-qUw">
+                                            <rect key="frame" x="112" y="47.5" width="0.0" height="0.0"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Q0L-w5-qUw" secondAttribute="height" multiplier="1:1" id="y1B-iX-x3e"/>
                                             </constraints>
@@ -494,6 +502,7 @@
                         <outlet property="imageView" destination="Q0L-w5-qUw" id="0v7-ZB-mgi"/>
                         <outlet property="imageViewAspectRatioConstraint" destination="y1B-iX-x3e" id="wIt-kh-Tzd"/>
                         <outlet property="titleLabel" destination="jyy-BX-c2c" id="UEd-xO-ipC"/>
+                        <outlet property="videoView" destination="QIh-sU-Wui" id="gLD-Ku-8tr"/>
                         <segue destination="6Xd-86-60d" kind="presentation" identifier="AddTextCommentSegue" id="cZ3-cq-cd4"/>
                         <segue destination="Le3-zd-yab" kind="presentation" identifier="AddAudioCommentSegue" id="RmK-s3-vWV"/>
                     </connections>

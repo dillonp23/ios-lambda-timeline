@@ -1,5 +1,5 @@
 //
-//  ImagePostDetailTableViewController.swift
+//  MediaPostDetailTableViewController.swift
 //  LambdaTimeline
 //
 //  Created by Spencer Curtis on 10/14/18.
@@ -18,7 +18,7 @@ protocol AddAudioCommentDelegate {
     func addAudioComment(audioURL: URL)
 }
 
-class ImagePostDetailTableViewController: UITableViewController {
+class MediaPostDetailTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +32,31 @@ class ImagePostDetailTableViewController: UITableViewController {
     
     func updateViews() {
         
-        guard let imageData = imageData,
-            let image = UIImage(data: imageData) else { return }
+        if let imageData = imageData,
+            let image = UIImage(data: imageData) {
+            videoView.isHidden = true
+            imageView.isHidden = false
+            imageView.image = image
+        } else if let videoData = videoData {
+            videoView.isHidden = false
+            imageView.isHidden = true
+            let video = AVMovie(data: videoData, options: .none)
+            playerItem = AVPlayerItem(asset: video)
+            avPlayer = AVQueuePlayer(playerItem: playerItem)
+            
+            //        avQueuePlayer = AVQueuePlayer(playerItem: playerItem)
+            avPlayerLayer = AVPlayerLayer(player: avPlayer)
+            avPlayerLayer.frame = videoView.bounds
+            avPlayerLayer.videoGravity = .resizeAspectFill
+            
+            videoView.layer.addSublayer(avPlayerLayer)
+            avPlayer.actionAtItemEnd = .pause
+            avPlayer.play()
+        }
         
         title = post?.title
         
-        imageView.image = image
+        
         
         titleLabel.text = post.title
         authorLabel.text = post.author.displayName
@@ -100,7 +119,7 @@ class ImagePostDetailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return }
-
+//        cell.playButton.isSelected = true
         guard let audioData = cell.audioData else { return }
 
         do {
@@ -192,6 +211,7 @@ class ImagePostDetailTableViewController: UITableViewController {
     var post: Post!
     var postController: PostController!
     var imageData: Data?
+    var videoData: Data?
     
     var audioPlayer: AVAudioPlayer? {
         didSet {
@@ -206,21 +226,26 @@ class ImagePostDetailTableViewController: UITableViewController {
     private let audioFetchQueue = OperationQueue()
     private let cache = Cache<String, Data>()
     
+    private lazy var avPlayer = AVQueuePlayer()
+    private lazy var avPlayerLayer = AVPlayerLayer()
+    private var playerItem: AVPlayerItem?
+    
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
 }
 
-extension ImagePostDetailTableViewController: AddTextCommentDelegate {
+extension MediaPostDetailTableViewController: AddTextCommentDelegate {
     func addTextComment(text: String) {
         postController.addTextComment(with: text, to: &post!)
         tableView.reloadData()
     }
 }
 
-extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
+extension MediaPostDetailTableViewController: AddAudioCommentDelegate {
     func addAudioComment(audioURL: URL) {
         postController.addAudioComment(audioURL: audioURL, oftype: .audio, to: post!) { (error) in
             if let error = error {
@@ -244,7 +269,7 @@ extension ImagePostDetailTableViewController: AddAudioCommentDelegate {
     }
 }
 
-extension ImagePostDetailTableViewController: AVAudioPlayerDelegate {
+extension MediaPostDetailTableViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         tableView.reloadData()
     }

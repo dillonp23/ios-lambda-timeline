@@ -28,7 +28,7 @@
 		46CFE7032171572600E7FF73 /* ImagePostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CFE7022171572600E7FF73 /* ImagePostCollectionViewCell.swift */; };
 		46D571F32172D43B00E7FF73 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F22172D43B00E7FF73 /* Cache.swift */; };
 		46D571F52173CF3E00E7FF73 /* UIImage+Ratio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F42173CF3E00E7FF73 /* UIImage+Ratio.swift */; };
-		46D571F82173FC2700E7FF73 /* ImagePostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */; };
+		46D571F82173FC2700E7FF73 /* MediaPostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D571F72173FC2700E7FF73 /* MediaPostDetailTableViewController.swift */; };
 		926F62CE24258086006A3299 /* FetchAudioOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CD24258086006A3299 /* FetchAudioOperation.swift */; };
 		926F62D02426A752006A3299 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62CF2426A752006A3299 /* CameraViewController.swift */; };
 		926F62D22426A8EC006A3299 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926F62D12426A8EC006A3299 /* CameraView.swift */; };
@@ -65,7 +65,7 @@
 		46CFE7022171572600E7FF73 /* ImagePostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostCollectionViewCell.swift; sourceTree = "<group>"; };
 		46D571F22172D43B00E7FF73 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		46D571F42173CF3E00E7FF73 /* UIImage+Ratio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ratio.swift"; sourceTree = "<group>"; };
-		46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostDetailTableViewController.swift; sourceTree = "<group>"; };
+		46D571F72173FC2700E7FF73 /* MediaPostDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPostDetailTableViewController.swift; sourceTree = "<group>"; };
 		5D2CCD6C68779B0A70AC37FA /* Pods-LambdaTimeline.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LambdaTimeline.release.xcconfig"; path = "Pods/Target Support Files/Pods-LambdaTimeline/Pods-LambdaTimeline.release.xcconfig"; sourceTree = "<group>"; };
 		926F62CD24258086006A3299 /* FetchAudioOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAudioOperation.swift; sourceTree = "<group>"; };
 		926F62CF2426A752006A3299 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				46A0366C2170158900E7FF73 /* SignInViewController.swift */,
 				46A0366921700F5100E7FF73 /* PostsCollectionViewController.swift */,
 				46CFE6F421707D0000E7FF73 /* ImagePostViewController.swift */,
-				46D571F72173FC2700E7FF73 /* ImagePostDetailTableViewController.swift */,
+				46D571F72173FC2700E7FF73 /* MediaPostDetailTableViewController.swift */,
 				9299D7282421CAC50072F784 /* AddTextCommentViewController.swift */,
 				9299D72A2421CAD50072F784 /* AddAudioCommentViewController.swift */,
 				926F62CF2426A752006A3299 /* CameraViewController.swift */,
@@ -387,7 +387,7 @@
 				46CFE7012171559500E7FF73 /* FetchMediaOperation.swift in Sources */,
 				92D2E12C2422F67F00A90F5B /* CommentTableViewCell.swift in Sources */,
 				9299D72B2421CAD50072F784 /* AddAudioCommentViewController.swift in Sources */,
-				46D571F82173FC2700E7FF73 /* ImagePostDetailTableViewController.swift in Sources */,
+				46D571F82173FC2700E7FF73 /* MediaPostDetailTableViewController.swift in Sources */,
 				46CFE7032171572600E7FF73 /* ImagePostCollectionViewCell.swift in Sources */,
 				4646379C2170091A00E7FF73 /* PostController.swift in Sources */,
 				464637992170048900E7FF73 /* FirebaseConvertible.swift in Sources */,
