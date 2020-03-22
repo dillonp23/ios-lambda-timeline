@@ -26,9 +26,23 @@ class MediaPostDetailTableViewController: UITableViewController {
         audioPlayer = AVAudioPlayer()
         
         //TODO: Fix audio playback bug when tapping on cells -> set up playback to be based on play button and disable cell selection in table view
-//        tableView.allowsSelection = false
+        //        tableView.allowsSelection = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        view.addGestureRecognizer(tapGesture)
     }
     
+    @objc func handleTapGesture(_ tapGesture: UITapGestureRecognizer) {
+        if tapGesture.state == .ended {
+            replayRecording()
+        }
+    }
+    
+    private func replayRecording() {
+        if playerItem != nil {
+            avPlayer.seek(to: CMTime.zero)
+            avPlayer.play()
+        }
+    }
     
     func updateViews() {
         
@@ -119,7 +133,7 @@ class MediaPostDetailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else { return }
-//        cell.playButton.isSelected = true
+        
         guard let audioData = cell.audioData else { return }
 
         do {
