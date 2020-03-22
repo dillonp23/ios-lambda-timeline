@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseUI
+import AVFoundation
 
 class PostsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -60,6 +61,15 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             cell.post = post
             
             loadImage(for: cell, forItemAt: indexPath)
+            
+            return cell
+            
+        case .video:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoPostCell", for: indexPath) as? VideoPostCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.post = post
+            
+            loadVideo(for: cell, forItemAt: indexPath)
             
             return cell
         default:
@@ -137,6 +147,53 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             
             if let data = fetchOp.mediaData {
                 imagePostCell.setImage(UIImage(data: data))
+                self.collectionView.reloadItems(at: [indexPath])
+            }
+        }
+        
+        cacheOp.addDependency(fetchOp)
+        completionOp.addDependency(fetchOp)
+        
+        mediaFetchQueue.addOperation(fetchOp)
+        mediaFetchQueue.addOperation(cacheOp)
+        OperationQueue.main.addOperation(completionOp)
+        
+        operations[postID] = fetchOp
+    }
+    
+    func loadVideo(for videoPostCell: VideoPostCollectionViewCell, forItemAt indexPath: IndexPath) {
+        let post = postController.posts[indexPath.row]
+        
+        guard let postID = post.id else { return }
+        
+        if let mediaData = cache.value(for: postID) {
+            videoPostCell.setupVideoPlayer(with: mediaData)
+            self.collectionView.reloadItems(at: [indexPath])
+            return
+        }
+        
+        let fetchOp = FetchMediaOperation(post: post, postController: postController)
+        
+        let cacheOp = BlockOperation {
+            if let data = fetchOp.mediaData {
+                self.cache.cache(value: data, for: postID)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadItems(at: [indexPath])
+                }
+            }
+        }
+        
+        let completionOp = BlockOperation {
+            defer { self.operations.removeValue(forKey: postID) }
+            
+            if let currentIndexPath = self.collectionView?.indexPath(for: videoPostCell),
+                currentIndexPath != indexPath {
+                print("Got video for now-reused cell")
+                return
+            }
+            
+            if let data = fetchOp.mediaData {
+                videoPostCell.setupVideoPlayer(with: data)
                 self.collectionView.reloadItems(at: [indexPath])
             }
         }
