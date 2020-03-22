@@ -17,15 +17,19 @@ class VideoPostCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     
     
-    private lazy var avQueuePlayer = AVQueuePlayer()
+    private lazy var avPlayer = AVQueuePlayer()
     private lazy var avPlayerLayer = AVPlayerLayer()
     private var playerItem: AVPlayerItem?
+    
+    var mediaData: Data?
     
     var post: Post? {
         didSet {
             updateViews()
         }
     }
+    
+    var didPlay: Bool = false
     
     
     override func layoutSubviews() {
@@ -53,20 +57,29 @@ class VideoPostCollectionViewCell: UICollectionViewCell {
     }
     
     func setupVideoPlayer(with data: Data) {
-        
+
         let video = AVMovie(data: data, options: .none)
         playerItem = AVPlayerItem(asset: video)
-        
-        avQueuePlayer = AVQueuePlayer(playerItem: playerItem)
-        avPlayerLayer = AVPlayerLayer(player: avQueuePlayer)
-        avPlayerLayer.frame = videoPostPlayerView.bounds
+        avPlayer = AVQueuePlayer(playerItem: playerItem)
+
+//        avQueuePlayer = AVQueuePlayer(playerItem: playerItem)
+        avPlayerLayer = AVPlayerLayer(player: avPlayer)
+        avPlayerLayer.frame = contentView.bounds
         avPlayerLayer.videoGravity = .resizeAspectFill
-        
+
         videoPostPlayerView.layer.addSublayer(avPlayerLayer)
-        avQueuePlayer.isMuted = true
-        avQueuePlayer.play()
-        avQueuePlayer.actionAtItemEnd = .pause
+        avPlayer.isMuted = true
+        avPlayer.actionAtItemEnd = .pause
+        avPlayer.play()
+//        didPlay = true
     }
+    
+//    func replayVideo() {
+//        avPlayer = AVQueuePlayer(playerItem: playerItem)
+//        avPlayerLayer = AVPlayerLayer(player: avPlayer)
+//        avPlayer.play()
+//    }
+    
 
     
 }

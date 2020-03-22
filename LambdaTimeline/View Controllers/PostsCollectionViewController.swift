@@ -90,6 +90,8 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             guard let ratio = post.ratio else { return size }
             
             size.height = size.width * ratio
+        case .video:
+            size = CGSize(width: view.bounds.width, height: view.bounds.height)
         default:
             return size
         }
@@ -97,6 +99,13 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
         return size
     }
     
+//    override func collectionView(_ collectionView: UICollectionView, shouldUpdateFocusIn context: UICollectionViewFocusUpdateContext) -> Bool {
+////
+//    }
+//
+//    override func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+//
+//    }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
@@ -167,6 +176,12 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
         guard let postID = post.id else { return }
         
         if let mediaData = cache.value(for: postID) {
+//            if videoPostCell.didPlay {
+//                videoPostCell.replayVideo()
+//            } else {
+//                videoPostCell.setupVideoPlayer(with: mediaData)
+//            }
+//            videoPostCell.mediaData = mediaData
             videoPostCell.setupVideoPlayer(with: mediaData)
             self.collectionView.reloadItems(at: [indexPath])
             return
@@ -193,6 +208,12 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             }
             
             if let data = fetchOp.mediaData {
+//                if videoPostCell.didPlay {
+//                    return
+//                } else {
+//                    videoPostCell.setupVideoPlayer(with: data)
+//                }
+//                videoPostCell.mediaData = data
                 videoPostCell.setupVideoPlayer(with: data)
                 self.collectionView.reloadItems(at: [indexPath])
             }
@@ -229,6 +250,9 @@ class PostsCollectionViewController: UICollectionViewController, UICollectionVie
             destinationVC?.postController = postController
             destinationVC?.post = postController.posts[indexPath.row]
             destinationVC?.imageData = cache.value(for: postID)
+            
+        } else if segue.identifier == "ViewVideoPost" {
+            // TODO: allow for clicking on the cell to load videos and leave comments
         }
     }
     
