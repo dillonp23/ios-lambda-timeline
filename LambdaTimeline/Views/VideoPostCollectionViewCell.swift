@@ -63,7 +63,9 @@ class VideoPostCollectionViewCell: UICollectionViewCell {
         avPlayerLayer.videoGravity = .resizeAspectFill
         
         videoPostPlayerView.layer.addSublayer(avPlayerLayer)
+        avQueuePlayer.isMuted = true
         avQueuePlayer.play()
+        avQueuePlayer.actionAtItemEnd = .pause
     }
 
     

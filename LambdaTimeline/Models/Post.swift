@@ -17,10 +17,10 @@ enum MediaType: String {
 
 class Post {
     
-    init(title: String, mediaURL: URL, ratio: CGFloat? = nil, author: Author, timestamp: Date = Date()) {
+    init(title: String, mediaURL: URL, mediaType: MediaType, ratio: CGFloat? = nil, author: Author, timestamp: Date = Date()) {
         self.mediaURL = mediaURL
         self.ratio = ratio
-        self.mediaType = .image
+        self.mediaType = mediaType
         self.author = author
         self.comments = [Comment(text: title, author: author)]
         self.timestamp = timestamp

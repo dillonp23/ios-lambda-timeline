@@ -22,7 +22,7 @@ class PostController {
             
             guard let mediaURL = mediaURL else { completion(false); return }
             
-            let mediaPost = Post(title: title, mediaURL: mediaURL, ratio: ratio, author: author)
+            let mediaPost = Post(title: title, mediaURL: mediaURL, mediaType: mediaType, ratio: ratio, author: author)
             
             self.postsRef.childByAutoId().setValue(mediaPost.dictionaryRepresentation) { (error, ref) in
                 if let error = error {

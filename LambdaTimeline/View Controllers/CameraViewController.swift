@@ -32,7 +32,6 @@ class CameraViewController: UIViewController {
     }
     
     var videoData: Data?
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
