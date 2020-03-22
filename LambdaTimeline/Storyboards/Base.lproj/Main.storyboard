@@ -231,13 +231,13 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJS-fN-Jp1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="ex7-R4-FXU">
-                                                                <rect key="frame" x="56" y="0.0" width="321" height="31"/>
+                                                                <rect key="frame" x="52" y="0.0" width="325" height="31"/>
                                                                 <connections>
                                                                     <action selector="topSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="GNB-dd-jCu"/>
                                                                 </connections>
@@ -248,13 +248,13 @@
                                                         <rect key="frame" x="0.0" y="46" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyL-t6-r5h">
-                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0tL-7G-Fc7">
-                                                                <rect key="frame" x="56" y="0.0" width="321" height="31"/>
+                                                                <rect key="frame" x="52" y="0.0" width="325" height="31"/>
                                                                 <connections>
                                                                     <action selector="bottomSliderAdjusted:" destination="1Aw-4e-BW2" eventType="valueChanged" id="Ycp-RH-gXE"/>
                                                                 </connections>
@@ -502,6 +502,7 @@
                         <outlet property="authorLabel" destination="uQC-8y-kuu" id="OBX-uv-64E"/>
                         <outlet property="imageView" destination="Q0L-w5-qUw" id="0v7-ZB-mgi"/>
                         <outlet property="imageViewAspectRatioConstraint" destination="y1B-iX-x3e" id="wIt-kh-Tzd"/>
+                        <outlet property="mediaView" destination="du3-3a-NOA" id="DPR-09-ALN"/>
                         <outlet property="titleLabel" destination="jyy-BX-c2c" id="UEd-xO-ipC"/>
                         <outlet property="videoView" destination="QIh-sU-Wui" id="gLD-Ku-8tr"/>
                         <segue destination="6Xd-86-60d" kind="presentation" identifier="AddTextCommentSegue" id="cZ3-cq-cd4"/>
